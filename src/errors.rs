@@ -4,4 +4,6 @@ use ::thiserror::Error;
 pub enum Error {
     #[error("unexpected game value: {0}")]
     GameParseError(String),
+    #[error("unexpected board value: {0}")]
+    BoardParseError(String),
 }
