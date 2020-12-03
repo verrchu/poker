@@ -1,0 +1,8 @@
+[package]
+name = "poker"
+version = "0.1.0"
+authors = ["Yauheni Tsiarokhin <yauheni@tsiarokhin.me>"]
+edition = "2018"
+
+[dependencies]
+thiserror = "~1"
