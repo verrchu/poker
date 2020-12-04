@@ -1,3 +1,5 @@
+use ::regex::Regex;
+
 use std::str::FromStr;
 
 use crate::errors::Error;
@@ -22,7 +24,7 @@ impl FromStr for Game {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Suite {
     Diamonds,
     Clubs,
@@ -30,7 +32,21 @@ pub enum Suite {
     Spades,
 }
 
-#[derive(Debug)]
+impl FromStr for Suite {
+    type Err = Error;
+
+    fn from_str(suite: &str) -> Result<Self, Self::Err> {
+        match suite {
+            "c" => Ok(Self::Clubs),
+            "d" => Ok(Self::Diamonds),
+            "h" => Ok(Self::Hearts),
+            "s" => Ok(Self::Spades),
+            _ => Err(Error::SuiteParseError(suite.to_string())),
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
 pub enum Rank {
     Two,
     Three,
@@ -47,7 +63,30 @@ pub enum Rank {
     Ace,
 }
 
-#[derive(Debug)]
+impl FromStr for Rank {
+    type Err = Error;
+
+    fn from_str(rank: &str) -> Result<Self, Self::Err> {
+        match rank {
+            "2" => Ok(Self::Two),
+            "3" => Ok(Self::Three),
+            "4" => Ok(Self::Four),
+            "5" => Ok(Self::Five),
+            "6" => Ok(Self::Six),
+            "7" => Ok(Self::Seven),
+            "8" => Ok(Self::Eight),
+            "9" => Ok(Self::Nine),
+            "10" => Ok(Self::Ten),
+            "J" => Ok(Self::Jack),
+            "Q" => Ok(Self::Queen),
+            "K" => Ok(Self::King),
+            "A" => Ok(Self::Ace),
+            _ => Err(Error::RankParseError(rank.to_string())),
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
 pub struct Card(Rank, Suite);
 
 #[derive(Debug)]
@@ -56,33 +95,30 @@ pub struct Board([Card; 5]);
 impl FromStr for Board {
     type Err = Error;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let chars = s.chars();
+    fn from_str(board: &str) -> Result<Self, Self::Err> {
+        let re = Regex::new(r"([2-9]|10|[AJQK])([cdhs])").unwrap();
+        let cards = re
+            .find_iter(board)
+            .map(|card| card.as_str())
+            .map(|card| {
+                let captures = re.captures(card).unwrap();
 
-        // use ::regex::Regex;
+                let rank = captures.get(1).unwrap().as_str();
+                let rank = Rank::from_str(rank)?;
 
-        // fn main() {
-        //     let re = Regex::new(r"([2-9]|10|[AJQK])([cdhs])").unwrap();
-        //     let text = "AdKh10c2s";
-        //     let res: Vec<_> = re.find_iter(text)
-        //         .map(|m| m.as_str())
-        //         .map(|m| {
-        //             let c = re.captures(m).unwrap();
-        //             let rank = c.get(1).unwrap().as_str();
-        //             let suite = c.get(2).unwrap().as_str();
-        //             (rank, suite)
-        //         })
-        //         .collect();
-        //     println!("{:?}", res);
-        // }
+                let suite = captures.get(2).unwrap().as_str();
+                let suite = Suite::from_str(suite)?;
 
+                Ok(Card(rank, suite))
+            })
+            .collect::<Result<Vec<Card>, Error>>()?;
 
         Ok(Self([
-            Card(Rank::Ace, Suite::Hearts),
-            Card(Rank::Ace, Suite::Hearts),
-            Card(Rank::Ace, Suite::Hearts),
-            Card(Rank::Ace, Suite::Hearts),
-            Card(Rank::Ace, Suite::Hearts),
+            cards.get(0).unwrap().clone(),
+            cards.get(1).unwrap().clone(),
+            cards.get(2).unwrap().clone(),
+            cards.get(3).unwrap().clone(),
+            cards.get(4).unwrap().clone(),
         ]))
     }
 }
