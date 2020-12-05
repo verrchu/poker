@@ -5,5 +5,3 @@ authors = ["Yauheni Tsiarokhin <yauheni@tsiarokhin.me>"]
 edition = "2018"
 
 [dependencies]
-thiserror = "~1"
-regex = "~1"
