@@ -1,4 +1,7 @@
-use super::Rank;
+use crate::card::Rank;
+use crate::card::Suite;
+use crate::game::Variant;
+
 use std::cmp::Ordering;
 
 #[derive(Debug, Clone, PartialEq)]
@@ -217,5 +220,71 @@ impl PartialOrd for Combination {
                 },
             },
         }
+    }
+}
+
+impl Combination {
+    pub fn from_variant(variant: Variant) -> Self {
+        Self::try_straight_flush(variant)
+            .or(Self::try_four_of_a_kind(variant))
+            .or(Self::try_full_house(variant))
+            .or(Self::try_flush(variant))
+            .or(Self::try_straight(variant))
+            .or(Self::try_three_of_a_kind(variant))
+            .or(Self::try_two_pairs(variant))
+            .or(Self::try_pair(variant))
+            .or(Self::try_high_card(variant))
+            .unwrap()
+    }
+
+    fn try_straight_flush(variant: Variant) -> Option<Self> {
+        None
+    }
+
+    fn try_four_of_a_kind(variant: Variant) -> Option<Self> {
+        None
+    }
+
+    fn try_full_house(variant: Variant) -> Option<Self> {
+        None
+    }
+
+    pub fn try_flush(variant: Variant) -> Option<Self> {
+        let cards = &variant.0;
+        let suite = cards[0].1;
+
+        let ranks = cards.into_iter().map(|card| card.0).collect::<Vec<Rank>>();
+        let suites = cards.into_iter().map(|card| card.1).collect::<Vec<Suite>>();
+
+        if suites.into_iter().all(|s| s == suite) {
+            let max = ranks.into_iter().max().unwrap();
+            Some(Self::Flush { rank: max })
+        } else {
+            None
+        }
+    }
+
+    fn try_straight(variant: Variant) -> Option<Self> {
+        None
+    }
+
+    fn try_three_of_a_kind(variant: Variant) -> Option<Self> {
+        None
+    }
+
+    fn try_two_pairs(variant: Variant) -> Option<Self> {
+        None
+    }
+
+    fn try_pair(variant: Variant) -> Option<Self> {
+        None
+    }
+
+    pub fn try_high_card(variant: Variant) -> Option<Self> {
+        let cards = &variant.0;
+
+        let max = cards.into_iter().map(|card| card.0).max().unwrap();
+
+        Some(Self::HighCard { rank: max })
     }
 }

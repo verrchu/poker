@@ -1,9 +1,9 @@
 use std::str::FromStr;
 
-#[derive(Debug, Clone)]
-pub struct Card(Rank, Suite);
+#[derive(Debug, Clone, Copy)]
+pub struct Card(pub Rank, pub Suite);
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Suite {
     Diamonds,
     Clubs,
@@ -25,7 +25,7 @@ impl FromStr for Suite {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd)]
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Eq, Ord)]
 pub enum Rank {
     Two,
     Three,

@@ -1,9 +1,9 @@
 use std::convert::TryInto;
 use std::str::FromStr;
 
-use super::Card;
+use crate::card::Card;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Game {
     TexasHoldem(Board, Vec<HandOf2>),
     OmahaHoldem(Board, Vec<HandOf4>),
@@ -49,7 +49,7 @@ impl FromStr for Game {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct Board([Card; 5]);
 
 impl FromStr for Board {
@@ -62,7 +62,7 @@ impl FromStr for Board {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct HandOf2([Card; 2]);
 
 impl FromStr for HandOf2 {
@@ -75,7 +75,7 @@ impl FromStr for HandOf2 {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct HandOf4([Card; 4]);
 
 impl FromStr for HandOf4 {
@@ -88,7 +88,7 @@ impl FromStr for HandOf4 {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct HandOf5([Card; 5]);
 
 impl FromStr for HandOf5 {
@@ -100,3 +100,6 @@ impl FromStr for HandOf5 {
         Ok(HandOf5(cards))
     }
 }
+
+#[derive(Debug, Clone, Copy)]
+pub struct Variant(pub [Card; 5]);
