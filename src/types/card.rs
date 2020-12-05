@@ -25,7 +25,7 @@ impl FromStr for Suite {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, PartialOrd)]
 pub enum Rank {
     Two,
     Three,
