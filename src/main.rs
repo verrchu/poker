@@ -24,11 +24,11 @@ fn process(line: &str) {
     //     Card(Rank::Two, Suite::Diamonds),
     //     Card(Rank::Jack, Suite::Diamonds),
     //     Card(Rank::Jack, Suite::Spades),
-    //     Card(Rank::Seven, Suite::Diamonds),
-    //     Card(Rank::Eight, Suite::Diamonds),
+    //     Card(Rank::Jack, Suite::Clubs),
+    //     Card(Rank::Jack, Suite::Hearts),
     // ]);
 
-    // println!("COMB -> {:?}", Combination::try_pair(variant));
+    // println!("COMB -> {:?}", Combination::try_four_of_a_kind(variant));
 
     let game = game::Game::from_str(line).unwrap();
 }
@@ -611,6 +611,80 @@ mod tests {
         ]);
 
         let result = Combination::try_pair(variant);
+
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_three_of_a_kind_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Two, Suite::Diamonds),
+            Card(Rank::Jack, Suite::Diamonds),
+            Card(Rank::Jack, Suite::Spades),
+            Card(Rank::Jack, Suite::Hearts),
+            Card(Rank::Eight, Suite::Diamonds),
+        ]);
+
+        let result = Combination::try_three_of_a_kind(variant);
+
+        assert!(result.is_some());
+        assert!(
+            result.unwrap()
+                == Combination::ThreeOfAKind {
+                    rank: Rank::Jack,
+                    kicker: Rank::Eight
+                }
+        );
+    }
+
+    #[test]
+    fn test_three_of_a_kind_from_variant_negative() {
+        let variant = Variant([
+            Card(Rank::Two, Suite::Diamonds),
+            Card(Rank::Jack, Suite::Diamonds),
+            Card(Rank::Jack, Suite::Spades),
+            Card(Rank::Seven, Suite::Diamonds),
+            Card(Rank::Eight, Suite::Diamonds),
+        ]);
+
+        let result = Combination::try_three_of_a_kind(variant);
+
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_four_of_a_kind_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Two, Suite::Diamonds),
+            Card(Rank::Jack, Suite::Diamonds),
+            Card(Rank::Jack, Suite::Spades),
+            Card(Rank::Jack, Suite::Hearts),
+            Card(Rank::Jack, Suite::Clubs),
+        ]);
+
+        let result = Combination::try_four_of_a_kind(variant);
+
+        assert!(result.is_some());
+        assert!(
+            result.unwrap()
+                == Combination::FourOfAKind {
+                    rank: Rank::Jack,
+                    kicker: Rank::Two
+                }
+        );
+    }
+
+    #[test]
+    fn test_four_of_a_kind_from_variant_negative() {
+        let variant = Variant([
+            Card(Rank::Two, Suite::Diamonds),
+            Card(Rank::Jack, Suite::Diamonds),
+            Card(Rank::Jack, Suite::Spades),
+            Card(Rank::Jack, Suite::Hearts),
+            Card(Rank::Eight, Suite::Diamonds),
+        ]);
+
+        let result = Combination::try_four_of_a_kind(variant);
 
         assert!(result.is_none());
     }
