@@ -14,22 +14,6 @@ fn main() {
 }
 
 fn process(line: &str) {
-    // use card::Card;
-    // use card::Rank;
-    // use card::Suite;
-    // use combination::Combination;
-    // use game::Variant;
-
-    // let variant = Variant([
-    //     Card(Rank::Two, Suite::Diamonds),
-    //     Card(Rank::Jack, Suite::Diamonds),
-    //     Card(Rank::Jack, Suite::Spades),
-    //     Card(Rank::Jack, Suite::Clubs),
-    //     Card(Rank::Jack, Suite::Hearts),
-    // ]);
-
-    // println!("COMB -> {:?}", Combination::try_four_of_a_kind(variant));
-
     let game = game::Game::from_str(line).unwrap();
 }
 
@@ -40,38 +24,6 @@ mod tests {
     use crate::card::Suite;
     use crate::combination::Combination;
     use crate::game::Variant;
-
-    #[test]
-    fn test_card_rank_ordering() {
-        assert!(Rank::Three > Rank::Two);
-        assert!(Rank::Four > Rank::Three);
-        assert!(Rank::Five > Rank::Four);
-        assert!(Rank::Six > Rank::Five);
-        assert!(Rank::Seven > Rank::Six);
-        assert!(Rank::Eight > Rank::Seven);
-        assert!(Rank::Nine > Rank::Eight);
-        assert!(Rank::Ten > Rank::Nine);
-        assert!(Rank::Jack > Rank::Ten);
-        assert!(Rank::Queen > Rank::Jack);
-        assert!(Rank::King > Rank::Queen);
-        assert!(Rank::Ace > Rank::King);
-    }
-
-    #[test]
-    fn test_card_rank_equality() {
-        assert!(Rank::Three == Rank::Three);
-        assert!(Rank::Four == Rank::Four);
-        assert!(Rank::Five == Rank::Five);
-        assert!(Rank::Six == Rank::Six);
-        assert!(Rank::Seven == Rank::Seven);
-        assert!(Rank::Eight == Rank::Eight);
-        assert!(Rank::Nine == Rank::Nine);
-        assert!(Rank::Ten == Rank::Ten);
-        assert!(Rank::Jack == Rank::Jack);
-        assert!(Rank::Queen == Rank::Queen);
-        assert!(Rank::King == Rank::King);
-        assert!(Rank::Ace == Rank::Ace);
-    }
 
     #[test]
     fn test_combination_high_card_ordering() {

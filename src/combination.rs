@@ -310,34 +310,34 @@ impl Combination {
         ranks.sort();
 
         match ranks.as_slice() {
-            &[Rank::Two, Rank::Three, Rank::Four, Rank::Five, Rank::Ace] => {
+            [Rank::Two, Rank::Three, Rank::Four, Rank::Five, Rank::Ace] => {
                 Some(Self::Straight { rank: Rank::Ace })
             }
-            &[Rank::Two, Rank::Three, Rank::Four, Rank::Five, Rank::Six] => {
+            [Rank::Two, Rank::Three, Rank::Four, Rank::Five, Rank::Six] => {
                 Some(Self::Straight { rank: Rank::Two })
             }
-            &[Rank::Three, Rank::Four, Rank::Five, Rank::Six, Rank::Seven] => {
+            [Rank::Three, Rank::Four, Rank::Five, Rank::Six, Rank::Seven] => {
                 Some(Self::Straight { rank: Rank::Three })
             }
-            &[Rank::Four, Rank::Five, Rank::Six, Rank::Seven, Rank::Eight] => {
+            [Rank::Four, Rank::Five, Rank::Six, Rank::Seven, Rank::Eight] => {
                 Some(Self::Straight { rank: Rank::Four })
             }
-            &[Rank::Five, Rank::Six, Rank::Seven, Rank::Eight, Rank::Nine] => {
+            [Rank::Five, Rank::Six, Rank::Seven, Rank::Eight, Rank::Nine] => {
                 Some(Self::Straight { rank: Rank::Five })
             }
-            &[Rank::Six, Rank::Seven, Rank::Eight, Rank::Nine, Rank::Ten] => {
+            [Rank::Six, Rank::Seven, Rank::Eight, Rank::Nine, Rank::Ten] => {
                 Some(Self::Straight { rank: Rank::Six })
             }
-            &[Rank::Seven, Rank::Eight, Rank::Nine, Rank::Ten, Rank::Jack] => {
+            [Rank::Seven, Rank::Eight, Rank::Nine, Rank::Ten, Rank::Jack] => {
                 Some(Self::Straight { rank: Rank::Seven })
             }
-            &[Rank::Eight, Rank::Nine, Rank::Ten, Rank::Jack, Rank::Queen] => {
+            [Rank::Eight, Rank::Nine, Rank::Ten, Rank::Jack, Rank::Queen] => {
                 Some(Self::Straight { rank: Rank::Eight })
             }
-            &[Rank::Nine, Rank::Ten, Rank::Jack, Rank::Queen, Rank::King] => {
+            [Rank::Nine, Rank::Ten, Rank::Jack, Rank::Queen, Rank::King] => {
                 Some(Self::Straight { rank: Rank::Nine })
             }
-            &[Rank::Ten, Rank::Jack, Rank::Queen, Rank::King, Rank::Ace] => {
+            [Rank::Ten, Rank::Jack, Rank::Queen, Rank::King, Rank::Ace] => {
                 Some(Self::Straight { rank: Rank::Ten })
             }
             _ => None,
