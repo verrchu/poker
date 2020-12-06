@@ -1,5 +1,4 @@
 use crate::card::Rank;
-use crate::card::Suite;
 use crate::game::Variant;
 
 use std::cmp::Ordering;
@@ -227,14 +226,14 @@ impl PartialOrd for Combination {
 impl Combination {
     pub fn from_variant(variant: Variant) -> Self {
         Self::try_straight_flush(variant)
-            .or(Self::try_four_of_a_kind(variant))
-            .or(Self::try_full_house(variant))
-            .or(Self::try_flush(variant))
-            .or(Self::try_straight(variant))
-            .or(Self::try_three_of_a_kind(variant))
-            .or(Self::try_two_pairs(variant))
-            .or(Self::try_pair(variant))
-            .or(Self::try_high_card(variant))
+            .or_else(|| Self::try_four_of_a_kind(variant))
+            .or_else(|| Self::try_full_house(variant))
+            .or_else(|| Self::try_flush(variant))
+            .or_else(|| Self::try_straight(variant))
+            .or_else(|| Self::try_three_of_a_kind(variant))
+            .or_else(|| Self::try_two_pairs(variant))
+            .or_else(|| Self::try_pair(variant))
+            .or_else(|| Self::try_high_card(variant))
             .unwrap()
     }
 
@@ -245,17 +244,19 @@ impl Combination {
     pub fn try_four_of_a_kind(variant: Variant) -> Option<Self> {
         let cards = &variant.0;
 
-        let ranks = cards.into_iter().map(|card| card.0).collect::<Vec<_>>();
-        let groups = ranks.into_iter().fold(HashMap::new(), |mut acc, x| {
-            let n = match acc.get(&x) {
-                Some(n) => n + 1,
-                None => 1,
-            };
+        let groups = cards
+            .iter()
+            .map(|card| card.0)
+            .fold(HashMap::new(), |mut acc, x| {
+                let n = match acc.get(&x) {
+                    Some(n) => n + 1,
+                    None => 1,
+                };
 
-            acc.insert(x, n);
+                acc.insert(x, n);
 
-            acc
-        });
+                acc
+            });
 
         println!("GROUPS -> {:?}", groups);
 
@@ -274,12 +275,7 @@ impl Combination {
         );
 
         rank.and_then(|rank| kicker.map(|kicker| (rank, kicker)))
-            .and_then(|(rank, kicker)| {
-                Some(Combination::FourOfAKind {
-                    rank: rank,
-                    kicker: kicker,
-                })
-            })
+            .map(|(rank, kicker)| Combination::FourOfAKind { rank, kicker })
     }
 
     fn try_full_house(variant: Variant) -> Option<Self> {
@@ -290,11 +286,8 @@ impl Combination {
         let cards = &variant.0;
         let suite = cards[0].1;
 
-        let ranks = cards.into_iter().map(|card| card.0).collect::<Vec<Rank>>();
-        let suites = cards.into_iter().map(|card| card.1).collect::<Vec<Suite>>();
-
-        if suites.into_iter().all(|s| s == suite) {
-            let max = ranks.into_iter().max().unwrap();
+        if cards.iter().map(|card| card.1).all(|s| s == suite) {
+            let max = cards.iter().map(|card| card.0).max().unwrap();
             Some(Self::Flush { rank: max })
         } else {
             None
@@ -308,17 +301,19 @@ impl Combination {
     pub fn try_three_of_a_kind(variant: Variant) -> Option<Self> {
         let cards = &variant.0;
 
-        let ranks = cards.into_iter().map(|card| card.0).collect::<Vec<_>>();
-        let groups = ranks.into_iter().fold(HashMap::new(), |mut acc, x| {
-            let n = match acc.get(&x) {
-                Some(n) => n + 1,
-                None => 1,
-            };
+        let groups = cards
+            .iter()
+            .map(|card| card.0)
+            .fold(HashMap::new(), |mut acc, x| {
+                let n = match acc.get(&x) {
+                    Some(n) => n + 1,
+                    None => 1,
+                };
 
-            acc.insert(x, n);
+                acc.insert(x, n);
 
-            acc
-        });
+                acc
+            });
 
         let rank = groups
             .clone()
@@ -335,12 +330,7 @@ impl Combination {
         );
 
         rank.and_then(|rank| kicker.map(|kicker| (rank, kicker)))
-            .and_then(|(rank, kicker)| {
-                Some(Combination::ThreeOfAKind {
-                    rank: rank,
-                    kicker: kicker,
-                })
-            })
+            .map(|(rank, kicker)| Combination::ThreeOfAKind { rank, kicker })
     }
 
     fn try_two_pairs(variant: Variant) -> Option<Self> {
@@ -350,17 +340,19 @@ impl Combination {
     pub fn try_pair(variant: Variant) -> Option<Self> {
         let cards = &variant.0;
 
-        let ranks = cards.into_iter().map(|card| card.0).collect::<Vec<_>>();
-        let groups = ranks.into_iter().fold(HashMap::new(), |mut acc, x| {
-            let n = match acc.get(&x) {
-                Some(n) => n + 1,
-                None => 1,
-            };
+        let groups = cards
+            .iter()
+            .map(|card| card.0)
+            .fold(HashMap::new(), |mut acc, x| {
+                let n = match acc.get(&x) {
+                    Some(n) => n + 1,
+                    None => 1,
+                };
 
-            acc.insert(x, n);
+                acc.insert(x, n);
 
-            acc
-        });
+                acc
+            });
 
         let rank = groups
             .clone()
@@ -377,19 +369,14 @@ impl Combination {
         );
 
         rank.and_then(|rank| kicker.map(|kicker| (rank, kicker)))
-            .and_then(|(rank, kicker)| {
-                Some(Combination::Pair {
-                    rank: rank,
-                    kicker: kicker,
-                })
-            })
+            .map(|(rank, kicker)| Combination::Pair { rank, kicker })
     }
 
     pub fn try_high_card(variant: Variant) -> Option<Self> {
         let cards = &variant.0;
 
-        let max = cards.into_iter().map(|card| card.0).max().unwrap();
+        let rank = cards.iter().map(|card| card.0).max().unwrap();
 
-        Some(Self::HighCard { rank: max })
+        Some(Self::HighCard { rank })
     }
 }
