@@ -14,6 +14,22 @@ fn main() {
 }
 
 fn process(line: &str) {
+    // use card::Card;
+    // use card::Rank;
+    // use card::Suite;
+    // use combination::Combination;
+    // use game::Variant;
+
+    // let variant = Variant([
+    //     Card(Rank::Two, Suite::Diamonds),
+    //     Card(Rank::Jack, Suite::Diamonds),
+    //     Card(Rank::Jack, Suite::Spades),
+    //     Card(Rank::Seven, Suite::Diamonds),
+    //     Card(Rank::Eight, Suite::Diamonds),
+    // ]);
+
+    // println!("COMB -> {:?}", Combination::try_pair(variant));
+
     let game = game::Game::from_str(line).unwrap();
 }
 
@@ -541,7 +557,9 @@ mod tests {
             Card(Rank::Eight, Suite::Diamonds),
         ]);
 
-        assert!(Combination::try_flush(variant).is_none());
+        let result = Combination::try_flush(variant);
+
+        assert!(result.is_none());
     }
 
     #[test]
@@ -558,5 +576,42 @@ mod tests {
 
         assert!(result.is_some());
         assert!(result.unwrap() == Combination::HighCard { rank: Rank::Ace });
+    }
+
+    #[test]
+    fn test_pair_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Two, Suite::Diamonds),
+            Card(Rank::Jack, Suite::Diamonds),
+            Card(Rank::Jack, Suite::Spades),
+            Card(Rank::Seven, Suite::Diamonds),
+            Card(Rank::Eight, Suite::Diamonds),
+        ]);
+
+        let result = Combination::try_pair(variant);
+
+        assert!(result.is_some());
+        assert!(
+            result.unwrap()
+                == Combination::Pair {
+                    rank: Rank::Jack,
+                    kicker: Rank::Eight
+                }
+        );
+    }
+
+    #[test]
+    fn test_pair_from_variant_negative() {
+        let variant = Variant([
+            Card(Rank::Two, Suite::Diamonds),
+            Card(Rank::Jack, Suite::Diamonds),
+            Card(Rank::Queen, Suite::Spades),
+            Card(Rank::Seven, Suite::Diamonds),
+            Card(Rank::Eight, Suite::Diamonds),
+        ]);
+
+        let result = Combination::try_pair(variant);
+
+        assert!(result.is_none());
     }
 }

@@ -3,6 +3,7 @@ use crate::card::Suite;
 use crate::game::Variant;
 
 use std::cmp::Ordering;
+use std::collections::HashMap;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Combination {
@@ -276,8 +277,42 @@ impl Combination {
         None
     }
 
-    fn try_pair(variant: Variant) -> Option<Self> {
-        None
+    pub fn try_pair(variant: Variant) -> Option<Self> {
+        let cards = &variant.0;
+
+        let ranks = cards.into_iter().map(|card| card.0).collect::<Vec<_>>();
+        let groups = ranks.into_iter().fold(HashMap::new(), |mut acc, x| {
+            let n = match acc.get(&x) {
+                Some(n) => n + 1,
+                None => 1,
+            };
+
+            acc.insert(x, n);
+
+            acc
+        });
+
+        let rank = groups
+            .clone()
+            .into_iter()
+            .find(|(_rank, n)| *n == 2)
+            .map(|(rank, _)| rank);
+
+        let kicker = rank.and(
+            groups
+                .into_iter()
+                .filter(|(_rank, n)| *n == 1)
+                .map(|(rank, _)| rank)
+                .max(),
+        );
+
+        rank.and_then(|rank| kicker.map(|kicker| (rank, kicker)))
+            .and_then(|(rank, kicker)| {
+                Some(Combination::Pair {
+                    rank: rank,
+                    kicker: kicker,
+                })
+            })
     }
 
     pub fn try_high_card(variant: Variant) -> Option<Self> {
