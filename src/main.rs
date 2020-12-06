@@ -688,4 +688,429 @@ mod tests {
 
         assert!(result.is_none());
     }
+
+    #[test]
+    fn test_full_house_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Two, Suite::Diamonds),
+            Card(Rank::Two, Suite::Hearts),
+            Card(Rank::Jack, Suite::Spades),
+            Card(Rank::Jack, Suite::Hearts),
+            Card(Rank::Jack, Suite::Clubs),
+        ]);
+
+        let result = Combination::try_full_house(variant);
+
+        assert!(result.is_some());
+        assert!(
+            result.unwrap()
+                == Combination::FullHouse {
+                    three: Rank::Jack,
+                    two: Rank::Two
+                }
+        );
+    }
+
+    #[test]
+    fn test_full_house_from_variant_negative() {
+        let variant = Variant([
+            Card(Rank::Two, Suite::Diamonds),
+            Card(Rank::Two, Suite::Hearts),
+            Card(Rank::Three, Suite::Spades),
+            Card(Rank::Jack, Suite::Hearts),
+            Card(Rank::Jack, Suite::Clubs),
+        ]);
+
+        let result = Combination::try_full_house(variant);
+
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_two_pairs_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Two, Suite::Diamonds),
+            Card(Rank::Two, Suite::Hearts),
+            Card(Rank::Jack, Suite::Spades),
+            Card(Rank::Jack, Suite::Hearts),
+            Card(Rank::Queen, Suite::Clubs),
+        ]);
+
+        let result = Combination::try_two_pairs(variant);
+
+        assert!(result.is_some());
+        assert!(
+            result.unwrap()
+                == Combination::TwoPairs {
+                    low: Rank::Two,
+                    high: Rank::Jack,
+                    kicker: Rank::Queen
+                }
+        );
+    }
+
+    #[test]
+    fn test_two_pairs_from_variant_negative() {
+        let variant = Variant([
+            Card(Rank::Two, Suite::Diamonds),
+            Card(Rank::Two, Suite::Hearts),
+            Card(Rank::Three, Suite::Spades),
+            Card(Rank::Four, Suite::Hearts),
+            Card(Rank::Jack, Suite::Clubs),
+        ]);
+
+        let result = Combination::try_two_pairs(variant);
+
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_straight_ace_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Ace, Suite::Diamonds),
+            Card(Rank::Two, Suite::Hearts),
+            Card(Rank::Three, Suite::Spades),
+            Card(Rank::Four, Suite::Hearts),
+            Card(Rank::Five, Suite::Clubs),
+        ]);
+
+        let result = Combination::try_straight(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::Straight { rank: Rank::Ace });
+    }
+
+    #[test]
+    fn test_straight_two_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Two, Suite::Hearts),
+            Card(Rank::Three, Suite::Spades),
+            Card(Rank::Four, Suite::Hearts),
+            Card(Rank::Five, Suite::Clubs),
+            Card(Rank::Six, Suite::Diamonds),
+        ]);
+
+        let result = Combination::try_straight(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::Straight { rank: Rank::Two });
+    }
+
+    #[test]
+    fn test_straight_three_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Three, Suite::Spades),
+            Card(Rank::Four, Suite::Hearts),
+            Card(Rank::Five, Suite::Clubs),
+            Card(Rank::Six, Suite::Diamonds),
+            Card(Rank::Seven, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::Straight { rank: Rank::Three });
+    }
+
+    #[test]
+    fn test_straight_four_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Four, Suite::Hearts),
+            Card(Rank::Five, Suite::Clubs),
+            Card(Rank::Six, Suite::Diamonds),
+            Card(Rank::Seven, Suite::Hearts),
+            Card(Rank::Eight, Suite::Spades),
+        ]);
+
+        let result = Combination::try_straight(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::Straight { rank: Rank::Four });
+    }
+
+    #[test]
+    fn test_straight_five_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Five, Suite::Clubs),
+            Card(Rank::Six, Suite::Diamonds),
+            Card(Rank::Seven, Suite::Hearts),
+            Card(Rank::Eight, Suite::Spades),
+            Card(Rank::Nine, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::Straight { rank: Rank::Five });
+    }
+
+    #[test]
+    fn test_straight_six_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Six, Suite::Diamonds),
+            Card(Rank::Seven, Suite::Hearts),
+            Card(Rank::Eight, Suite::Spades),
+            Card(Rank::Nine, Suite::Hearts),
+            Card(Rank::Ten, Suite::Clubs),
+        ]);
+
+        let result = Combination::try_straight(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::Straight { rank: Rank::Six });
+    }
+
+    #[test]
+    fn test_straight_seven_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Seven, Suite::Hearts),
+            Card(Rank::Eight, Suite::Spades),
+            Card(Rank::Nine, Suite::Hearts),
+            Card(Rank::Ten, Suite::Clubs),
+            Card(Rank::Jack, Suite::Diamonds),
+        ]);
+
+        let result = Combination::try_straight(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::Straight { rank: Rank::Seven });
+    }
+
+    #[test]
+    fn test_straight_eight_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Eight, Suite::Spades),
+            Card(Rank::Nine, Suite::Hearts),
+            Card(Rank::Ten, Suite::Clubs),
+            Card(Rank::Jack, Suite::Diamonds),
+            Card(Rank::Queen, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::Straight { rank: Rank::Eight });
+    }
+
+    #[test]
+    fn test_straight_nine_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Nine, Suite::Hearts),
+            Card(Rank::Ten, Suite::Clubs),
+            Card(Rank::Jack, Suite::Diamonds),
+            Card(Rank::Queen, Suite::Hearts),
+            Card(Rank::King, Suite::Spades),
+        ]);
+
+        let result = Combination::try_straight(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::Straight { rank: Rank::Nine });
+    }
+
+    #[test]
+    fn test_straight_ten_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Ten, Suite::Clubs),
+            Card(Rank::Jack, Suite::Diamonds),
+            Card(Rank::Queen, Suite::Hearts),
+            Card(Rank::King, Suite::Spades),
+            Card(Rank::Ace, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::Straight { rank: Rank::Ten });
+    }
+
+    #[test]
+    fn test_straight_from_variant_negative() {
+        let variant = Variant([
+            Card(Rank::Ten, Suite::Clubs),
+            Card(Rank::King, Suite::Diamonds),
+            Card(Rank::Queen, Suite::Hearts),
+            Card(Rank::King, Suite::Spades),
+            Card(Rank::Seven, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight(variant);
+
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_straight_flush_ace_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Ace, Suite::Hearts),
+            Card(Rank::Two, Suite::Hearts),
+            Card(Rank::Three, Suite::Hearts),
+            Card(Rank::Four, Suite::Hearts),
+            Card(Rank::Five, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight_flush(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Ace });
+    }
+
+    #[test]
+    fn test_straight_flush_two_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Two, Suite::Hearts),
+            Card(Rank::Three, Suite::Hearts),
+            Card(Rank::Four, Suite::Hearts),
+            Card(Rank::Five, Suite::Hearts),
+            Card(Rank::Six, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight_flush(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Two });
+    }
+
+    #[test]
+    fn test_straight_flush_three_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Three, Suite::Hearts),
+            Card(Rank::Four, Suite::Hearts),
+            Card(Rank::Five, Suite::Hearts),
+            Card(Rank::Six, Suite::Hearts),
+            Card(Rank::Seven, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight_flush(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Three });
+    }
+
+    #[test]
+    fn test_straight_flush_four_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Four, Suite::Hearts),
+            Card(Rank::Five, Suite::Hearts),
+            Card(Rank::Six, Suite::Hearts),
+            Card(Rank::Seven, Suite::Hearts),
+            Card(Rank::Eight, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight_flush(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Four });
+    }
+
+    #[test]
+    fn test_straight_flush_five_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Five, Suite::Hearts),
+            Card(Rank::Six, Suite::Hearts),
+            Card(Rank::Seven, Suite::Hearts),
+            Card(Rank::Eight, Suite::Hearts),
+            Card(Rank::Nine, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight_flush(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Five });
+    }
+
+    #[test]
+    fn test_straight_flush_six_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Six, Suite::Hearts),
+            Card(Rank::Seven, Suite::Hearts),
+            Card(Rank::Eight, Suite::Hearts),
+            Card(Rank::Nine, Suite::Hearts),
+            Card(Rank::Ten, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight_flush(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Six });
+    }
+
+    #[test]
+    fn test_straight_flush_seven_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Seven, Suite::Hearts),
+            Card(Rank::Eight, Suite::Hearts),
+            Card(Rank::Nine, Suite::Hearts),
+            Card(Rank::Ten, Suite::Hearts),
+            Card(Rank::Jack, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight_flush(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Seven });
+    }
+
+    #[test]
+    fn test_straight_flush_eight_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Eight, Suite::Hearts),
+            Card(Rank::Nine, Suite::Hearts),
+            Card(Rank::Ten, Suite::Hearts),
+            Card(Rank::Jack, Suite::Hearts),
+            Card(Rank::Queen, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight_flush(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Eight });
+    }
+
+    #[test]
+    fn test_straight_flush_nine_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Nine, Suite::Hearts),
+            Card(Rank::Ten, Suite::Hearts),
+            Card(Rank::Jack, Suite::Hearts),
+            Card(Rank::Queen, Suite::Hearts),
+            Card(Rank::King, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight_flush(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Nine });
+    }
+
+    #[test]
+    fn test_straight_flush_ten_from_variant_positive() {
+        let variant = Variant([
+            Card(Rank::Ten, Suite::Hearts),
+            Card(Rank::Jack, Suite::Hearts),
+            Card(Rank::Queen, Suite::Hearts),
+            Card(Rank::King, Suite::Hearts),
+            Card(Rank::Ace, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight_flush(variant);
+
+        assert!(result.is_some());
+        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Ten });
+    }
+
+    #[test]
+    fn test_straight_flush_from_variant_negative() {
+        let variant = Variant([
+            Card(Rank::Ten, Suite::Hearts),
+            Card(Rank::King, Suite::Hearts),
+            Card(Rank::Queen, Suite::Hearts),
+            Card(Rank::King, Suite::Hearts),
+            Card(Rank::Seven, Suite::Hearts),
+        ]);
+
+        let result = Combination::try_straight_flush(variant);
+
+        assert!(result.is_none());
+    }
 }
