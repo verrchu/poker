@@ -60,11 +60,11 @@ impl Game {
     }
 
     fn texas_holdem_combination(board: Board, hand: HandOf2) -> Combination {
-        let mut cards = board.0.to_vec();
-        cards.append(&mut hand.0.to_vec());
-
-        cards
-            .into_iter()
+        board
+            .0
+            .iter()
+            .chain(hand.0.iter())
+            .copied()
             .combinations(5)
             .map(|comb| Variant(comb.try_into().unwrap()))
             .map(Combination::from_variant)
@@ -73,7 +73,23 @@ impl Game {
             .unwrap()
     }
 
-    fn omaha_holdem_combination(_board: Board, _hand: HandOf4) -> Combination {
-        unimplemented!()
+    fn omaha_holdem_combination(board: Board, hand: HandOf4) -> Combination {
+        let hand_combinations = hand.0.iter().combinations(2);
+        let board_combinations = board.0.iter().combinations(3);
+
+        hand_combinations
+            .into_iter()
+            .cartesian_product(board_combinations.into_iter())
+            .map(|(h, b)| {
+                h.into_iter()
+                    .chain(b.into_iter())
+                    .copied()
+                    .collect::<Vec<_>>()
+            })
+            .map(|cards| Variant(cards.try_into().unwrap()))
+            .map(Combination::from_variant)
+            .sorted()
+            .max()
+            .unwrap()
     }
 }
