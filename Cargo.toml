@@ -5,3 +5,4 @@ authors = ["Yauheni Tsiarokhin <yauheni@tsiarokhin.me>"]
 edition = "2018"
 
 [dependencies]
+itertools = "^0.9"

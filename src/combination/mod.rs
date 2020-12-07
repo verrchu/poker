@@ -3,7 +3,7 @@ mod impl_partial_ord;
 
 use crate::card::Rank;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Combination {
     HighCard { rank: Rank },
     Pair { rank: Rank, kicker: Rank },

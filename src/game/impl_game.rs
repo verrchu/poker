@@ -1,3 +1,7 @@
+use std::convert::TryInto;
+
+use ::itertools::Itertools;
+
 use crate::card::Card;
 use crate::combination::Combination;
 use crate::game::Board;
@@ -55,8 +59,18 @@ impl Game {
             .collect::<Vec<_>>()
     }
 
-    fn texas_holdem_combination(_board: Board, _hand: HandOf2) -> Combination {
-        unimplemented!()
+    fn texas_holdem_combination(board: Board, hand: HandOf2) -> Combination {
+        let mut cards = board.0.to_vec();
+        cards.append(&mut hand.0.to_vec());
+
+        cards
+            .into_iter()
+            .combinations(5)
+            .map(|comb| Variant(comb.try_into().unwrap()))
+            .map(Combination::from_variant)
+            .sorted()
+            .max()
+            .unwrap()
     }
 
     fn omaha_holdem_combination(_board: Board, _hand: HandOf4) -> Combination {

@@ -209,6 +209,12 @@ impl PartialOrd for Combination {
     }
 }
 
+impl Ord for Combination {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.partial_cmp(&other).unwrap()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::Combination;
