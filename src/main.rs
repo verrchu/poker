@@ -5,6 +5,8 @@ mod card;
 mod combination;
 mod game;
 
+use game::Game;
+
 fn main() {
     let stdin = std::io::stdin();
 
@@ -14,5 +16,8 @@ fn main() {
 }
 
 fn process(line: &str) {
-    let game = game::Game::from_str(line).unwrap();
+    let game = Game::from_str(line).unwrap();
+    let ordered_hands = game.ordered_hands();
+
+    println!("ORDERED -> {:?}", ordered_hands);
 }
