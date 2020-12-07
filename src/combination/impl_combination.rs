@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use ::itertools::Itertools;
+
 use crate::card::Card;
 use crate::card::Rank;
 use crate::combination::Combination;
@@ -87,8 +89,12 @@ impl Combination {
     }
 
     pub fn try_straight(variant: Variant) -> Option<Self> {
-        let mut ranks = variant.0.iter().map(|card| card.0).collect::<Vec<_>>();
-        ranks.sort();
+        let ranks = variant
+            .0
+            .iter()
+            .map(|card| card.0)
+            .sorted()
+            .collect::<Vec<_>>();
 
         match ranks.as_slice() {
             [Rank::Two, Rank::Three, Rank::Four, Rank::Five, Rank::Ace] => {

@@ -51,10 +51,10 @@ impl Game {
         }
     }
 
-    fn sort_hands(mut mapping: Vec<(Vec<Card>, Combination)>) -> Vec<Vec<Card>> {
-        mapping.sort_by(|(_, comb_a), (_, comb_b)| comb_a.partial_cmp(comb_b).unwrap());
+    fn sort_hands(mapping: Vec<(Vec<Card>, Combination)>) -> Vec<Vec<Card>> {
         mapping
             .into_iter()
+            .sorted_by(|(_, comb_a), (_, comb_b)| comb_a.cmp(comb_b))
             .map(|(hand, _combination)| hand)
             .collect::<Vec<_>>()
     }
