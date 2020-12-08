@@ -6,7 +6,7 @@ pub use suite::Suite;
 use std::hash::Hash;
 use std::str::FromStr;
 
-#[derive(Debug, Clone, Copy, Hash)]
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub struct Card(pub Rank, pub Suite);
 
 pub fn parse_cards(s: &str) -> Vec<Card> {

@@ -1,7 +1,7 @@
 use std::hash::Hash;
 use std::str::FromStr;
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Suite {
     Diamonds,
     Clubs,

@@ -93,3 +93,66 @@ impl Game {
             .unwrap()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::card::Card;
+    use crate::card::Rank;
+    use crate::card::Suite;
+    use crate::game::Board;
+    use crate::game::Game;
+    use crate::game::HandOf2;
+
+    #[test]
+    fn test_texas_holdem_ordering() {
+        let game = Game::TexasHoldem(
+            Board([
+                Card(Rank::Queen, Suite::Spades),
+                Card(Rank::King, Suite::Diamonds),
+                Card(Rank::King, Suite::Spades),
+                Card(Rank::Seven, Suite::Clubs),
+                Card(Rank::Jack, Suite::Diamonds),
+            ]),
+            vec![
+                HandOf2([
+                    Card(Rank::King, Suite::Hearts),
+                    Card(Rank::Two, Suite::Clubs),
+                ]),
+                HandOf2([
+                    Card(Rank::King, Suite::Clubs),
+                    Card(Rank::Seven, Suite::Diamonds),
+                ]),
+                HandOf2([
+                    Card(Rank::Ace, Suite::Diamonds),
+                    Card(Rank::Ten, Suite::Hearts),
+                ]),
+                HandOf2([
+                    Card(Rank::Six, Suite::Diamonds),
+                    Card(Rank::Six, Suite::Hearts),
+                ]),
+            ],
+        );
+
+        assert_eq!(
+            game.ordered_hands(),
+            vec![
+                vec![
+                    Card(Rank::Six, Suite::Diamonds),
+                    Card(Rank::Six, Suite::Hearts),
+                ],
+                vec![
+                    Card(Rank::King, Suite::Hearts),
+                    Card(Rank::Two, Suite::Clubs),
+                ],
+                vec![
+                    Card(Rank::Ace, Suite::Diamonds),
+                    Card(Rank::Ten, Suite::Hearts),
+                ],
+                vec![
+                    Card(Rank::King, Suite::Clubs),
+                    Card(Rank::Seven, Suite::Diamonds),
+                ],
+            ]
+        );
+    }
+}
