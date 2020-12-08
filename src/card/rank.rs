@@ -43,6 +43,8 @@ impl FromStr for Rank {
 
 #[cfg(test)]
 mod tests {
+    use std::str::FromStr;
+
     use super::Rank;
 
     #[test]
@@ -290,5 +292,22 @@ mod tests {
         assert!(lhs > Rank::Queen);
         assert!(lhs > Rank::King);
         assert!(lhs == Rank::Ace);
+    }
+
+    #[test]
+    fn test_from_str() {
+        assert_eq!(Rank::from_str("2").unwrap(), Rank::Two);
+        assert_eq!(Rank::from_str("3").unwrap(), Rank::Three);
+        assert_eq!(Rank::from_str("4").unwrap(), Rank::Four);
+        assert_eq!(Rank::from_str("5").unwrap(), Rank::Five);
+        assert_eq!(Rank::from_str("6").unwrap(), Rank::Six);
+        assert_eq!(Rank::from_str("7").unwrap(), Rank::Seven);
+        assert_eq!(Rank::from_str("8").unwrap(), Rank::Eight);
+        assert_eq!(Rank::from_str("9").unwrap(), Rank::Nine);
+        assert_eq!(Rank::from_str("T").unwrap(), Rank::Ten);
+        assert_eq!(Rank::from_str("J").unwrap(), Rank::Jack);
+        assert_eq!(Rank::from_str("Q").unwrap(), Rank::Queen);
+        assert_eq!(Rank::from_str("K").unwrap(), Rank::King);
+        assert_eq!(Rank::from_str("A").unwrap(), Rank::Ace);
     }
 }

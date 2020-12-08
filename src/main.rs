@@ -17,5 +17,5 @@ fn main() {
 
 fn process(line: &str) {
     let game = Game::from_str(line).unwrap();
-    let ordered_hands = game.ordered_hands();
+    let _ordered_hands = game.sort_hands();
 }

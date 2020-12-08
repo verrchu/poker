@@ -11,7 +11,7 @@ use crate::game::HandOf4;
 use crate::game::Variant;
 
 impl Game {
-    pub fn ordered_hands(&self) -> Vec<(Vec<Card>, Combination)> {
+    pub fn sort_hands(&self) -> Vec<(Vec<Card>, Combination)> {
         match self {
             Self::TexasHoldem(board, hands) => hands
                 .iter()
@@ -87,6 +87,7 @@ mod tests {
     use crate::game::Game;
     use crate::game::HandOf2;
     use crate::game::HandOf4;
+    use crate::game::HandOf5;
 
     #[test]
     fn test_texas_holdem_ordering() {
@@ -116,7 +117,7 @@ mod tests {
         );
 
         assert_eq!(
-            game.ordered_hands(),
+            game.sort_hands(),
             vec![
                 (
                     vec![
@@ -190,7 +191,7 @@ mod tests {
         );
 
         assert_eq!(
-            game.ordered_hands(),
+            game.sort_hands(),
             vec![
                 (
                     vec![
@@ -223,6 +224,78 @@ mod tests {
                     Combination::FullHouse {
                         two: Rank::Seven,
                         three: Rank::King
+                    }
+                )
+            ]
+        );
+    }
+
+    #[test]
+    fn test_five_card_draw_ordering() {
+        let game = Game::FiveCardDraw(vec![
+            HandOf5([
+                Card(Rank::King, Suit::Hearts),
+                Card(Rank::Two, Suit::Clubs),
+                Card(Rank::Eight, Suit::Clubs),
+                Card(Rank::Two, Suit::Diamonds),
+                Card(Rank::Two, Suit::Hearts),
+            ]),
+            HandOf5([
+                Card(Rank::King, Suit::Clubs),
+                Card(Rank::Seven, Suit::Diamonds),
+                Card(Rank::Seven, Suit::Hearts),
+                Card(Rank::Seven, Suit::Spades),
+                Card(Rank::Seven, Suit::Clubs),
+            ]),
+            HandOf5([
+                Card(Rank::Ace, Suit::Diamonds),
+                Card(Rank::Ten, Suit::Hearts),
+                Card(Rank::Ace, Suit::Clubs),
+                Card(Rank::Ten, Suit::Clubs),
+                Card(Rank::Ten, Suit::Diamonds),
+            ]),
+        ]);
+
+        assert_eq!(
+            game.sort_hands(),
+            vec![
+                (
+                    vec![
+                        Card(Rank::King, Suit::Hearts),
+                        Card(Rank::Two, Suit::Clubs),
+                        Card(Rank::Eight, Suit::Clubs),
+                        Card(Rank::Two, Suit::Diamonds),
+                        Card(Rank::Two, Suit::Hearts),
+                    ],
+                    Combination::ThreeOfAKind {
+                        rank: Rank::Two,
+                        kicker: Rank::King
+                    }
+                ),
+                (
+                    vec![
+                        Card(Rank::Ace, Suit::Diamonds),
+                        Card(Rank::Ten, Suit::Hearts),
+                        Card(Rank::Ace, Suit::Clubs),
+                        Card(Rank::Ten, Suit::Clubs),
+                        Card(Rank::Ten, Suit::Diamonds),
+                    ],
+                    Combination::FullHouse {
+                        two: Rank::Ace,
+                        three: Rank::Ten
+                    }
+                ),
+                (
+                    vec![
+                        Card(Rank::King, Suit::Clubs),
+                        Card(Rank::Seven, Suit::Diamonds),
+                        Card(Rank::Seven, Suit::Hearts),
+                        Card(Rank::Seven, Suit::Spades),
+                        Card(Rank::Seven, Suit::Clubs),
+                    ],
+                    Combination::FourOfAKind {
+                        rank: Rank::Seven,
+                        kicker: Rank::King
                     }
                 )
             ]

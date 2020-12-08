@@ -27,3 +27,31 @@ pub fn parse_cards(s: &str) -> Vec<Card> {
         })
         .collect::<Vec<_>>()
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::card::Card;
+    use crate::card::Rank;
+    use crate::card::Suit;
+
+    #[test]
+    fn test_parse_cards() {
+        let expected: Vec<Card> = vec![];
+        assert_eq!(expected, super::parse_cards(""));
+
+        let expected: Vec<Card> = vec![Card(Rank::Ace, Suit::Diamonds)];
+        assert_eq!(expected, super::parse_cards("Ad"));
+
+        let expected: Vec<Card> = vec![
+            Card(Rank::Ace, Suit::Diamonds),
+            Card(Rank::Ten, Suit::Spades),
+        ];
+        assert_eq!(expected, super::parse_cards("AdTs"));
+
+        let parsed = super::parse_cards("Ad".repeat(100).as_str());
+        assert_eq!(parsed.len(), 100);
+        assert!(parsed
+            .into_iter()
+            .all(|card| card == Card(Rank::Ace, Suit::Diamonds)));
+    }
+}

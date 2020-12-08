@@ -25,6 +25,8 @@ impl FromStr for Suit {
 
 #[cfg(test)]
 mod tests {
+    use std::str::FromStr;
+
     use super::Suit;
 
     #[test]
@@ -33,5 +35,13 @@ mod tests {
         assert!(Suit::Clubs == Suit::Clubs);
         assert!(Suit::Hearts == Suit::Hearts);
         assert!(Suit::Spades == Suit::Spades);
+    }
+
+    #[test]
+    fn test_from_str() {
+        assert_eq!(Suit::from_str("c").unwrap(), Suit::Clubs);
+        assert_eq!(Suit::from_str("d").unwrap(), Suit::Diamonds);
+        assert_eq!(Suit::from_str("h").unwrap(), Suit::Hearts);
+        assert_eq!(Suit::from_str("s").unwrap(), Suit::Spades);
     }
 }
