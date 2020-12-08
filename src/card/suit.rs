@@ -23,6 +23,17 @@ impl FromStr for Suit {
     }
 }
 
+impl ToString for Suit {
+    fn to_string(&self) -> String {
+        match self {
+            Self::Clubs => "c".to_string(),
+            Self::Diamonds => "d".to_string(),
+            Self::Hearts => "h".to_string(),
+            Self::Spades => "s".to_string(),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use std::str::FromStr;
@@ -43,5 +54,13 @@ mod tests {
         assert_eq!(Suit::from_str("d").unwrap(), Suit::Diamonds);
         assert_eq!(Suit::from_str("h").unwrap(), Suit::Hearts);
         assert_eq!(Suit::from_str("s").unwrap(), Suit::Spades);
+    }
+
+    #[test]
+    fn test_to_string() {
+        assert_eq!(Suit::Clubs.to_string(), "c".to_string());
+        assert_eq!(Suit::Diamonds.to_string(), "d".to_string());
+        assert_eq!(Suit::Hearts.to_string(), "h".to_string());
+        assert_eq!(Suit::Spades.to_string(), "s".to_string());
     }
 }

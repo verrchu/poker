@@ -41,6 +41,26 @@ impl FromStr for Rank {
     }
 }
 
+impl ToString for Rank {
+    fn to_string(&self) -> String {
+        match self {
+            Self::Two => "2".to_string(),
+            Self::Three => "3".to_string(),
+            Self::Four => "4".to_string(),
+            Self::Five => "5".to_string(),
+            Self::Six => "6".to_string(),
+            Self::Seven => "7".to_string(),
+            Self::Eight => "8".to_string(),
+            Self::Nine => "9".to_string(),
+            Self::Ten => "T".to_string(),
+            Self::Jack => "J".to_string(),
+            Self::Queen => "Q".to_string(),
+            Self::King => "K".to_string(),
+            Self::Ace => "A".to_string(),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use ::claim::*;
@@ -311,5 +331,22 @@ mod tests {
         assert_eq!(Rank::from_str("Q").unwrap(), Rank::Queen);
         assert_eq!(Rank::from_str("K").unwrap(), Rank::King);
         assert_eq!(Rank::from_str("A").unwrap(), Rank::Ace);
+    }
+
+    #[test]
+    fn test_to_string() {
+        assert_eq!(Rank::Two.to_string(), "2".to_string());
+        assert_eq!(Rank::Three.to_string(), "3".to_string());
+        assert_eq!(Rank::Four.to_string(), "4".to_string());
+        assert_eq!(Rank::Five.to_string(), "5".to_string());
+        assert_eq!(Rank::Six.to_string(), "6".to_string());
+        assert_eq!(Rank::Seven.to_string(), "7".to_string());
+        assert_eq!(Rank::Eight.to_string(), "8".to_string());
+        assert_eq!(Rank::Nine.to_string(), "9".to_string());
+        assert_eq!(Rank::Ten.to_string(), "T".to_string());
+        assert_eq!(Rank::Jack.to_string(), "J".to_string());
+        assert_eq!(Rank::Queen.to_string(), "Q".to_string());
+        assert_eq!(Rank::King.to_string(), "K".to_string());
+        assert_eq!(Rank::Ace.to_string(), "A".to_string());
     }
 }
