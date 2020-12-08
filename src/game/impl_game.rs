@@ -11,52 +11,35 @@ use crate::game::HandOf4;
 use crate::game::Variant;
 
 impl Game {
-    pub fn ordered_hands(&self) -> Vec<Vec<Card>> {
+    pub fn ordered_hands(&self) -> Vec<(Vec<Card>, Combination)> {
         match self {
-            Self::TexasHoldem(board, hands) => {
-                let mapping = hands
-                    .iter()
-                    .map(|hand| {
-                        (
-                            hand.0.to_vec(),
-                            Self::texas_holdem_combination(*board, *hand),
-                        )
-                    })
-                    .collect::<Vec<_>>();
-
-                Self::sort_hands(mapping)
-            }
-            Self::OmahaHoldem(board, hands) => {
-                let mapping = hands
-                    .iter()
-                    .map(|hand| {
-                        (
-                            hand.0.to_vec(),
-                            Self::omaha_holdem_combination(*board, *hand),
-                        )
-                    })
-                    .collect::<Vec<_>>();
-
-                Self::sort_hands(mapping)
-            }
-            Self::FiveCardDraw(hands) => {
-                let mapping = hands
-                    .iter()
-                    .map(|hand| (hand, Variant(hand.0)))
-                    .map(|(hand, variant)| (hand.0.to_vec(), Combination::from_variant(variant)))
-                    .collect::<Vec<_>>();
-
-                Self::sort_hands(mapping)
-            }
+            Self::TexasHoldem(board, hands) => hands
+                .iter()
+                .map(|hand| {
+                    (
+                        hand.0.to_vec(),
+                        Self::texas_holdem_combination(*board, *hand),
+                    )
+                })
+                .sorted_by(|(_, comb_a), (_, comb_b)| comb_a.cmp(comb_b))
+                .collect::<Vec<_>>(),
+            Self::OmahaHoldem(board, hands) => hands
+                .iter()
+                .map(|hand| {
+                    (
+                        hand.0.to_vec(),
+                        Self::omaha_holdem_combination(*board, *hand),
+                    )
+                })
+                .sorted_by(|(_, comb_a), (_, comb_b)| comb_a.cmp(comb_b))
+                .collect::<Vec<_>>(),
+            Self::FiveCardDraw(hands) => hands
+                .iter()
+                .map(|hand| (hand, Variant(hand.0)))
+                .map(|(hand, variant)| (hand.0.to_vec(), Combination::from_variant(variant)))
+                .sorted_by(|(_, comb_a), (_, comb_b)| comb_a.cmp(comb_b))
+                .collect::<Vec<_>>(),
         }
-    }
-
-    fn sort_hands(mapping: Vec<(Vec<Card>, Combination)>) -> Vec<Vec<Card>> {
-        mapping
-            .into_iter()
-            .sorted_by(|(_, comb_a), (_, comb_b)| comb_a.cmp(comb_b))
-            .map(|(hand, _combination)| hand)
-            .collect::<Vec<_>>()
     }
 
     fn texas_holdem_combination(board: Board, hand: HandOf2) -> Combination {
@@ -99,6 +82,7 @@ mod tests {
     use crate::card::Card;
     use crate::card::Rank;
     use crate::card::Suite;
+    use crate::combination::Combination;
     use crate::game::Board;
     use crate::game::Game;
     use crate::game::HandOf2;
@@ -136,22 +120,44 @@ mod tests {
         assert_eq!(
             game.ordered_hands(),
             vec![
-                vec![
-                    Card(Rank::Six, Suite::Diamonds),
-                    Card(Rank::Six, Suite::Hearts),
-                ],
-                vec![
-                    Card(Rank::King, Suite::Hearts),
-                    Card(Rank::Two, Suite::Clubs),
-                ],
-                vec![
-                    Card(Rank::Ace, Suite::Diamonds),
-                    Card(Rank::Ten, Suite::Hearts),
-                ],
-                vec![
-                    Card(Rank::King, Suite::Clubs),
-                    Card(Rank::Seven, Suite::Diamonds),
-                ],
+                (
+                    vec![
+                        Card(Rank::Six, Suite::Diamonds),
+                        Card(Rank::Six, Suite::Hearts),
+                    ],
+                    Combination::TwoPairs {
+                        low: Rank::Six,
+                        high: Rank::King,
+                        kicker: Rank::Queen
+                    }
+                ),
+                (
+                    vec![
+                        Card(Rank::King, Suite::Hearts),
+                        Card(Rank::Two, Suite::Clubs),
+                    ],
+                    Combination::ThreeOfAKind {
+                        rank: Rank::King,
+                        kicker: Rank::Queen
+                    }
+                ),
+                (
+                    vec![
+                        Card(Rank::Ace, Suite::Diamonds),
+                        Card(Rank::Ten, Suite::Hearts),
+                    ],
+                    Combination::Straight { rank: Rank::Ten }
+                ),
+                (
+                    vec![
+                        Card(Rank::King, Suite::Clubs),
+                        Card(Rank::Seven, Suite::Diamonds),
+                    ],
+                    Combination::FullHouse {
+                        two: Rank::Seven,
+                        three: Rank::King
+                    }
+                )
             ]
         );
     }
