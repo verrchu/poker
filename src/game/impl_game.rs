@@ -81,7 +81,7 @@ impl Game {
 mod tests {
     use crate::card::Card;
     use crate::card::Rank;
-    use crate::card::Suite;
+    use crate::card::Suit;
     use crate::combination::Combination;
     use crate::game::Board;
     use crate::game::Game;
@@ -92,28 +92,25 @@ mod tests {
     fn test_texas_holdem_ordering() {
         let game = Game::TexasHoldem(
             Board([
-                Card(Rank::Queen, Suite::Spades),
-                Card(Rank::King, Suite::Diamonds),
-                Card(Rank::King, Suite::Spades),
-                Card(Rank::Seven, Suite::Clubs),
-                Card(Rank::Jack, Suite::Diamonds),
+                Card(Rank::Queen, Suit::Spades),
+                Card(Rank::King, Suit::Diamonds),
+                Card(Rank::King, Suit::Spades),
+                Card(Rank::Seven, Suit::Clubs),
+                Card(Rank::Jack, Suit::Diamonds),
             ]),
             vec![
+                HandOf2([Card(Rank::King, Suit::Hearts), Card(Rank::Two, Suit::Clubs)]),
                 HandOf2([
-                    Card(Rank::King, Suite::Hearts),
-                    Card(Rank::Two, Suite::Clubs),
+                    Card(Rank::King, Suit::Clubs),
+                    Card(Rank::Seven, Suit::Diamonds),
                 ]),
                 HandOf2([
-                    Card(Rank::King, Suite::Clubs),
-                    Card(Rank::Seven, Suite::Diamonds),
+                    Card(Rank::Ace, Suit::Diamonds),
+                    Card(Rank::Ten, Suit::Hearts),
                 ]),
                 HandOf2([
-                    Card(Rank::Ace, Suite::Diamonds),
-                    Card(Rank::Ten, Suite::Hearts),
-                ]),
-                HandOf2([
-                    Card(Rank::Six, Suite::Diamonds),
-                    Card(Rank::Six, Suite::Hearts),
+                    Card(Rank::Six, Suit::Diamonds),
+                    Card(Rank::Six, Suit::Hearts),
                 ]),
             ],
         );
@@ -123,8 +120,8 @@ mod tests {
             vec![
                 (
                     vec![
-                        Card(Rank::Six, Suite::Diamonds),
-                        Card(Rank::Six, Suite::Hearts),
+                        Card(Rank::Six, Suit::Diamonds),
+                        Card(Rank::Six, Suit::Hearts),
                     ],
                     Combination::TwoPairs {
                         low: Rank::Six,
@@ -133,10 +130,7 @@ mod tests {
                     }
                 ),
                 (
-                    vec![
-                        Card(Rank::King, Suite::Hearts),
-                        Card(Rank::Two, Suite::Clubs),
-                    ],
+                    vec![Card(Rank::King, Suit::Hearts), Card(Rank::Two, Suit::Clubs),],
                     Combination::ThreeOfAKind {
                         rank: Rank::King,
                         kicker: Rank::Queen
@@ -144,15 +138,15 @@ mod tests {
                 ),
                 (
                     vec![
-                        Card(Rank::Ace, Suite::Diamonds),
-                        Card(Rank::Ten, Suite::Hearts),
+                        Card(Rank::Ace, Suit::Diamonds),
+                        Card(Rank::Ten, Suit::Hearts),
                     ],
                     Combination::Straight { rank: Rank::Ten }
                 ),
                 (
                     vec![
-                        Card(Rank::King, Suite::Clubs),
-                        Card(Rank::Seven, Suite::Diamonds),
+                        Card(Rank::King, Suit::Clubs),
+                        Card(Rank::Seven, Suit::Diamonds),
                     ],
                     Combination::FullHouse {
                         two: Rank::Seven,
@@ -167,30 +161,30 @@ mod tests {
     fn test_omaha_holdem_ordering() {
         let game = Game::OmahaHoldem(
             Board([
-                Card(Rank::Queen, Suite::Spades),
-                Card(Rank::King, Suite::Diamonds),
-                Card(Rank::King, Suite::Spades),
-                Card(Rank::Seven, Suite::Clubs),
-                Card(Rank::Jack, Suite::Diamonds),
+                Card(Rank::Queen, Suit::Spades),
+                Card(Rank::King, Suit::Diamonds),
+                Card(Rank::King, Suit::Spades),
+                Card(Rank::Seven, Suit::Clubs),
+                Card(Rank::Jack, Suit::Diamonds),
             ]),
             vec![
                 HandOf4([
-                    Card(Rank::King, Suite::Hearts),
-                    Card(Rank::Two, Suite::Clubs),
-                    Card(Rank::Eight, Suite::Clubs),
-                    Card(Rank::Two, Suite::Diamonds),
+                    Card(Rank::King, Suit::Hearts),
+                    Card(Rank::Two, Suit::Clubs),
+                    Card(Rank::Eight, Suit::Clubs),
+                    Card(Rank::Two, Suit::Diamonds),
                 ]),
                 HandOf4([
-                    Card(Rank::King, Suite::Clubs),
-                    Card(Rank::Seven, Suite::Diamonds),
-                    Card(Rank::Seven, Suite::Hearts),
-                    Card(Rank::Seven, Suite::Spades),
+                    Card(Rank::King, Suit::Clubs),
+                    Card(Rank::Seven, Suit::Diamonds),
+                    Card(Rank::Seven, Suit::Hearts),
+                    Card(Rank::Seven, Suit::Spades),
                 ]),
                 HandOf4([
-                    Card(Rank::Ace, Suite::Diamonds),
-                    Card(Rank::Ten, Suite::Hearts),
-                    Card(Rank::Ace, Suite::Clubs),
-                    Card(Rank::Ten, Suite::Clubs),
+                    Card(Rank::Ace, Suit::Diamonds),
+                    Card(Rank::Ten, Suit::Hearts),
+                    Card(Rank::Ace, Suit::Clubs),
+                    Card(Rank::Ten, Suit::Clubs),
                 ]),
             ],
         );
@@ -200,10 +194,10 @@ mod tests {
             vec![
                 (
                     vec![
-                        Card(Rank::King, Suite::Hearts),
-                        Card(Rank::Two, Suite::Clubs),
-                        Card(Rank::Eight, Suite::Clubs),
-                        Card(Rank::Two, Suite::Diamonds),
+                        Card(Rank::King, Suit::Hearts),
+                        Card(Rank::Two, Suit::Clubs),
+                        Card(Rank::Eight, Suit::Clubs),
+                        Card(Rank::Two, Suit::Diamonds),
                     ],
                     Combination::ThreeOfAKind {
                         rank: Rank::King,
@@ -212,19 +206,19 @@ mod tests {
                 ),
                 (
                     vec![
-                        Card(Rank::Ace, Suite::Diamonds),
-                        Card(Rank::Ten, Suite::Hearts),
-                        Card(Rank::Ace, Suite::Clubs),
-                        Card(Rank::Ten, Suite::Clubs),
+                        Card(Rank::Ace, Suit::Diamonds),
+                        Card(Rank::Ten, Suit::Hearts),
+                        Card(Rank::Ace, Suit::Clubs),
+                        Card(Rank::Ten, Suit::Clubs),
                     ],
                     Combination::Straight { rank: Rank::Ten }
                 ),
                 (
                     vec![
-                        Card(Rank::King, Suite::Clubs),
-                        Card(Rank::Seven, Suite::Diamonds),
-                        Card(Rank::Seven, Suite::Hearts),
-                        Card(Rank::Seven, Suite::Spades),
+                        Card(Rank::King, Suit::Clubs),
+                        Card(Rank::Seven, Suit::Diamonds),
+                        Card(Rank::Seven, Suit::Hearts),
+                        Card(Rank::Seven, Suit::Spades),
                     ],
                     Combination::FullHouse {
                         two: Rank::Seven,

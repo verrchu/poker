@@ -78,9 +78,9 @@ impl Combination {
 
     pub fn try_flush(variant: Variant) -> Option<Self> {
         let cards = &variant.0;
-        let suite = cards[0].1;
+        let suit = cards[0].1;
 
-        if cards.iter().map(|card| card.1).all(|s| s == suite) {
+        if cards.iter().map(|card| card.1).all(|s| s == suit) {
             let max = cards.iter().map(|card| card.0).max().unwrap();
             Some(Self::Flush { rank: max })
         } else {
@@ -237,18 +237,18 @@ impl Combination {
 mod tests {
     use crate::card::Card;
     use crate::card::Rank;
-    use crate::card::Suite;
+    use crate::card::Suit;
     use crate::combination::Combination;
     use crate::game::Variant;
 
     #[test]
     fn test_high_card_from_variant() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Diamonds),
-            Card(Rank::Ace, Suite::Spades),
-            Card(Rank::Seven, Suite::Diamonds),
-            Card(Rank::Eight, Suite::Diamonds),
+            Card(Rank::Two, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Diamonds),
+            Card(Rank::Ace, Suit::Spades),
+            Card(Rank::Seven, Suit::Diamonds),
+            Card(Rank::Eight, Suit::Diamonds),
         ]);
 
         let result = Combination::try_high_card(variant);
@@ -260,11 +260,11 @@ mod tests {
     #[test]
     fn test_pair_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Spades),
-            Card(Rank::Seven, Suite::Diamonds),
-            Card(Rank::Eight, Suite::Diamonds),
+            Card(Rank::Two, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Spades),
+            Card(Rank::Seven, Suit::Diamonds),
+            Card(Rank::Eight, Suit::Diamonds),
         ]);
 
         let result = Combination::try_pair(variant);
@@ -282,11 +282,11 @@ mod tests {
     #[test]
     fn test_pair_from_variant_negative() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Diamonds),
-            Card(Rank::Queen, Suite::Spades),
-            Card(Rank::Seven, Suite::Diamonds),
-            Card(Rank::Eight, Suite::Diamonds),
+            Card(Rank::Two, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Diamonds),
+            Card(Rank::Queen, Suit::Spades),
+            Card(Rank::Seven, Suit::Diamonds),
+            Card(Rank::Eight, Suit::Diamonds),
         ]);
 
         let result = Combination::try_pair(variant);
@@ -297,11 +297,11 @@ mod tests {
     #[test]
     fn test_two_pairs_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Diamonds),
-            Card(Rank::Two, Suite::Hearts),
-            Card(Rank::Jack, Suite::Spades),
-            Card(Rank::Jack, Suite::Hearts),
-            Card(Rank::Queen, Suite::Clubs),
+            Card(Rank::Two, Suit::Diamonds),
+            Card(Rank::Two, Suit::Hearts),
+            Card(Rank::Jack, Suit::Spades),
+            Card(Rank::Jack, Suit::Hearts),
+            Card(Rank::Queen, Suit::Clubs),
         ]);
 
         let result = Combination::try_two_pairs(variant);
@@ -320,11 +320,11 @@ mod tests {
     #[test]
     fn test_two_pairs_from_variant_negative() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Diamonds),
-            Card(Rank::Two, Suite::Hearts),
-            Card(Rank::Three, Suite::Spades),
-            Card(Rank::Four, Suite::Hearts),
-            Card(Rank::Jack, Suite::Clubs),
+            Card(Rank::Two, Suit::Diamonds),
+            Card(Rank::Two, Suit::Hearts),
+            Card(Rank::Three, Suit::Spades),
+            Card(Rank::Four, Suit::Hearts),
+            Card(Rank::Jack, Suit::Clubs),
         ]);
 
         let result = Combination::try_two_pairs(variant);
@@ -335,11 +335,11 @@ mod tests {
     #[test]
     fn test_three_of_a_kind_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Spades),
-            Card(Rank::Jack, Suite::Hearts),
-            Card(Rank::Eight, Suite::Diamonds),
+            Card(Rank::Two, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Spades),
+            Card(Rank::Jack, Suit::Hearts),
+            Card(Rank::Eight, Suit::Diamonds),
         ]);
 
         let result = Combination::try_three_of_a_kind(variant);
@@ -357,11 +357,11 @@ mod tests {
     #[test]
     fn test_three_of_a_kind_from_variant_negative() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Spades),
-            Card(Rank::Seven, Suite::Diamonds),
-            Card(Rank::Eight, Suite::Diamonds),
+            Card(Rank::Two, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Spades),
+            Card(Rank::Seven, Suit::Diamonds),
+            Card(Rank::Eight, Suit::Diamonds),
         ]);
 
         let result = Combination::try_three_of_a_kind(variant);
@@ -372,11 +372,11 @@ mod tests {
     #[test]
     fn test_straight_ace_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Ace, Suite::Diamonds),
-            Card(Rank::Two, Suite::Hearts),
-            Card(Rank::Three, Suite::Spades),
-            Card(Rank::Four, Suite::Hearts),
-            Card(Rank::Five, Suite::Clubs),
+            Card(Rank::Ace, Suit::Diamonds),
+            Card(Rank::Two, Suit::Hearts),
+            Card(Rank::Three, Suit::Spades),
+            Card(Rank::Four, Suit::Hearts),
+            Card(Rank::Five, Suit::Clubs),
         ]);
 
         let result = Combination::try_straight(variant);
@@ -388,11 +388,11 @@ mod tests {
     #[test]
     fn test_straight_two_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Hearts),
-            Card(Rank::Three, Suite::Spades),
-            Card(Rank::Four, Suite::Hearts),
-            Card(Rank::Five, Suite::Clubs),
-            Card(Rank::Six, Suite::Diamonds),
+            Card(Rank::Two, Suit::Hearts),
+            Card(Rank::Three, Suit::Spades),
+            Card(Rank::Four, Suit::Hearts),
+            Card(Rank::Five, Suit::Clubs),
+            Card(Rank::Six, Suit::Diamonds),
         ]);
 
         let result = Combination::try_straight(variant);
@@ -404,11 +404,11 @@ mod tests {
     #[test]
     fn test_straight_three_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Three, Suite::Spades),
-            Card(Rank::Four, Suite::Hearts),
-            Card(Rank::Five, Suite::Clubs),
-            Card(Rank::Six, Suite::Diamonds),
-            Card(Rank::Seven, Suite::Hearts),
+            Card(Rank::Three, Suit::Spades),
+            Card(Rank::Four, Suit::Hearts),
+            Card(Rank::Five, Suit::Clubs),
+            Card(Rank::Six, Suit::Diamonds),
+            Card(Rank::Seven, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight(variant);
@@ -420,11 +420,11 @@ mod tests {
     #[test]
     fn test_straight_four_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Four, Suite::Hearts),
-            Card(Rank::Five, Suite::Clubs),
-            Card(Rank::Six, Suite::Diamonds),
-            Card(Rank::Seven, Suite::Hearts),
-            Card(Rank::Eight, Suite::Spades),
+            Card(Rank::Four, Suit::Hearts),
+            Card(Rank::Five, Suit::Clubs),
+            Card(Rank::Six, Suit::Diamonds),
+            Card(Rank::Seven, Suit::Hearts),
+            Card(Rank::Eight, Suit::Spades),
         ]);
 
         let result = Combination::try_straight(variant);
@@ -436,11 +436,11 @@ mod tests {
     #[test]
     fn test_straight_five_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Five, Suite::Clubs),
-            Card(Rank::Six, Suite::Diamonds),
-            Card(Rank::Seven, Suite::Hearts),
-            Card(Rank::Eight, Suite::Spades),
-            Card(Rank::Nine, Suite::Hearts),
+            Card(Rank::Five, Suit::Clubs),
+            Card(Rank::Six, Suit::Diamonds),
+            Card(Rank::Seven, Suit::Hearts),
+            Card(Rank::Eight, Suit::Spades),
+            Card(Rank::Nine, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight(variant);
@@ -452,11 +452,11 @@ mod tests {
     #[test]
     fn test_straight_six_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Six, Suite::Diamonds),
-            Card(Rank::Seven, Suite::Hearts),
-            Card(Rank::Eight, Suite::Spades),
-            Card(Rank::Nine, Suite::Hearts),
-            Card(Rank::Ten, Suite::Clubs),
+            Card(Rank::Six, Suit::Diamonds),
+            Card(Rank::Seven, Suit::Hearts),
+            Card(Rank::Eight, Suit::Spades),
+            Card(Rank::Nine, Suit::Hearts),
+            Card(Rank::Ten, Suit::Clubs),
         ]);
 
         let result = Combination::try_straight(variant);
@@ -468,11 +468,11 @@ mod tests {
     #[test]
     fn test_straight_seven_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Seven, Suite::Hearts),
-            Card(Rank::Eight, Suite::Spades),
-            Card(Rank::Nine, Suite::Hearts),
-            Card(Rank::Ten, Suite::Clubs),
-            Card(Rank::Jack, Suite::Diamonds),
+            Card(Rank::Seven, Suit::Hearts),
+            Card(Rank::Eight, Suit::Spades),
+            Card(Rank::Nine, Suit::Hearts),
+            Card(Rank::Ten, Suit::Clubs),
+            Card(Rank::Jack, Suit::Diamonds),
         ]);
 
         let result = Combination::try_straight(variant);
@@ -484,11 +484,11 @@ mod tests {
     #[test]
     fn test_straight_eight_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Eight, Suite::Spades),
-            Card(Rank::Nine, Suite::Hearts),
-            Card(Rank::Ten, Suite::Clubs),
-            Card(Rank::Jack, Suite::Diamonds),
-            Card(Rank::Queen, Suite::Hearts),
+            Card(Rank::Eight, Suit::Spades),
+            Card(Rank::Nine, Suit::Hearts),
+            Card(Rank::Ten, Suit::Clubs),
+            Card(Rank::Jack, Suit::Diamonds),
+            Card(Rank::Queen, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight(variant);
@@ -500,11 +500,11 @@ mod tests {
     #[test]
     fn test_straight_nine_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Nine, Suite::Hearts),
-            Card(Rank::Ten, Suite::Clubs),
-            Card(Rank::Jack, Suite::Diamonds),
-            Card(Rank::Queen, Suite::Hearts),
-            Card(Rank::King, Suite::Spades),
+            Card(Rank::Nine, Suit::Hearts),
+            Card(Rank::Ten, Suit::Clubs),
+            Card(Rank::Jack, Suit::Diamonds),
+            Card(Rank::Queen, Suit::Hearts),
+            Card(Rank::King, Suit::Spades),
         ]);
 
         let result = Combination::try_straight(variant);
@@ -516,11 +516,11 @@ mod tests {
     #[test]
     fn test_straight_ten_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Ten, Suite::Clubs),
-            Card(Rank::Jack, Suite::Diamonds),
-            Card(Rank::Queen, Suite::Hearts),
-            Card(Rank::King, Suite::Spades),
-            Card(Rank::Ace, Suite::Hearts),
+            Card(Rank::Ten, Suit::Clubs),
+            Card(Rank::Jack, Suit::Diamonds),
+            Card(Rank::Queen, Suit::Hearts),
+            Card(Rank::King, Suit::Spades),
+            Card(Rank::Ace, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight(variant);
@@ -532,11 +532,11 @@ mod tests {
     #[test]
     fn test_straight_from_variant_negative() {
         let variant = Variant([
-            Card(Rank::Ten, Suite::Clubs),
-            Card(Rank::King, Suite::Diamonds),
-            Card(Rank::Queen, Suite::Hearts),
-            Card(Rank::King, Suite::Spades),
-            Card(Rank::Seven, Suite::Hearts),
+            Card(Rank::Ten, Suit::Clubs),
+            Card(Rank::King, Suit::Diamonds),
+            Card(Rank::Queen, Suit::Hearts),
+            Card(Rank::King, Suit::Spades),
+            Card(Rank::Seven, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight(variant);
@@ -547,11 +547,11 @@ mod tests {
     #[test]
     fn test_flush_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Diamonds),
-            Card(Rank::Ace, Suite::Diamonds),
-            Card(Rank::Seven, Suite::Diamonds),
-            Card(Rank::Eight, Suite::Diamonds),
+            Card(Rank::Two, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Diamonds),
+            Card(Rank::Ace, Suit::Diamonds),
+            Card(Rank::Seven, Suit::Diamonds),
+            Card(Rank::Eight, Suit::Diamonds),
         ]);
 
         let result = Combination::try_flush(variant);
@@ -563,11 +563,11 @@ mod tests {
     #[test]
     fn test_flush_from_variant_negative() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Diamonds),
-            Card(Rank::Ace, Suite::Spades),
-            Card(Rank::Seven, Suite::Diamonds),
-            Card(Rank::Eight, Suite::Diamonds),
+            Card(Rank::Two, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Diamonds),
+            Card(Rank::Ace, Suit::Spades),
+            Card(Rank::Seven, Suit::Diamonds),
+            Card(Rank::Eight, Suit::Diamonds),
         ]);
 
         let result = Combination::try_flush(variant);
@@ -578,11 +578,11 @@ mod tests {
     #[test]
     fn test_four_of_a_kind_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Spades),
-            Card(Rank::Jack, Suite::Hearts),
-            Card(Rank::Jack, Suite::Clubs),
+            Card(Rank::Two, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Spades),
+            Card(Rank::Jack, Suit::Hearts),
+            Card(Rank::Jack, Suit::Clubs),
         ]);
 
         let result = Combination::try_four_of_a_kind(variant);
@@ -600,11 +600,11 @@ mod tests {
     #[test]
     fn test_four_of_a_kind_from_variant_negative() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Diamonds),
-            Card(Rank::Jack, Suite::Spades),
-            Card(Rank::Jack, Suite::Hearts),
-            Card(Rank::Eight, Suite::Diamonds),
+            Card(Rank::Two, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Diamonds),
+            Card(Rank::Jack, Suit::Spades),
+            Card(Rank::Jack, Suit::Hearts),
+            Card(Rank::Eight, Suit::Diamonds),
         ]);
 
         let result = Combination::try_four_of_a_kind(variant);
@@ -615,11 +615,11 @@ mod tests {
     #[test]
     fn test_full_house_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Diamonds),
-            Card(Rank::Two, Suite::Hearts),
-            Card(Rank::Jack, Suite::Spades),
-            Card(Rank::Jack, Suite::Hearts),
-            Card(Rank::Jack, Suite::Clubs),
+            Card(Rank::Two, Suit::Diamonds),
+            Card(Rank::Two, Suit::Hearts),
+            Card(Rank::Jack, Suit::Spades),
+            Card(Rank::Jack, Suit::Hearts),
+            Card(Rank::Jack, Suit::Clubs),
         ]);
 
         let result = Combination::try_full_house(variant);
@@ -637,11 +637,11 @@ mod tests {
     #[test]
     fn test_full_house_from_variant_negative() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Diamonds),
-            Card(Rank::Two, Suite::Hearts),
-            Card(Rank::Three, Suite::Spades),
-            Card(Rank::Jack, Suite::Hearts),
-            Card(Rank::Jack, Suite::Clubs),
+            Card(Rank::Two, Suit::Diamonds),
+            Card(Rank::Two, Suit::Hearts),
+            Card(Rank::Three, Suit::Spades),
+            Card(Rank::Jack, Suit::Hearts),
+            Card(Rank::Jack, Suit::Clubs),
         ]);
 
         let result = Combination::try_full_house(variant);
@@ -652,11 +652,11 @@ mod tests {
     #[test]
     fn test_straight_flush_ace_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Ace, Suite::Hearts),
-            Card(Rank::Two, Suite::Hearts),
-            Card(Rank::Three, Suite::Hearts),
-            Card(Rank::Four, Suite::Hearts),
-            Card(Rank::Five, Suite::Hearts),
+            Card(Rank::Ace, Suit::Hearts),
+            Card(Rank::Two, Suit::Hearts),
+            Card(Rank::Three, Suit::Hearts),
+            Card(Rank::Four, Suit::Hearts),
+            Card(Rank::Five, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight_flush(variant);
@@ -668,11 +668,11 @@ mod tests {
     #[test]
     fn test_straight_flush_two_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Two, Suite::Hearts),
-            Card(Rank::Three, Suite::Hearts),
-            Card(Rank::Four, Suite::Hearts),
-            Card(Rank::Five, Suite::Hearts),
-            Card(Rank::Six, Suite::Hearts),
+            Card(Rank::Two, Suit::Hearts),
+            Card(Rank::Three, Suit::Hearts),
+            Card(Rank::Four, Suit::Hearts),
+            Card(Rank::Five, Suit::Hearts),
+            Card(Rank::Six, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight_flush(variant);
@@ -684,11 +684,11 @@ mod tests {
     #[test]
     fn test_straight_flush_three_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Three, Suite::Hearts),
-            Card(Rank::Four, Suite::Hearts),
-            Card(Rank::Five, Suite::Hearts),
-            Card(Rank::Six, Suite::Hearts),
-            Card(Rank::Seven, Suite::Hearts),
+            Card(Rank::Three, Suit::Hearts),
+            Card(Rank::Four, Suit::Hearts),
+            Card(Rank::Five, Suit::Hearts),
+            Card(Rank::Six, Suit::Hearts),
+            Card(Rank::Seven, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight_flush(variant);
@@ -700,11 +700,11 @@ mod tests {
     #[test]
     fn test_straight_flush_four_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Four, Suite::Hearts),
-            Card(Rank::Five, Suite::Hearts),
-            Card(Rank::Six, Suite::Hearts),
-            Card(Rank::Seven, Suite::Hearts),
-            Card(Rank::Eight, Suite::Hearts),
+            Card(Rank::Four, Suit::Hearts),
+            Card(Rank::Five, Suit::Hearts),
+            Card(Rank::Six, Suit::Hearts),
+            Card(Rank::Seven, Suit::Hearts),
+            Card(Rank::Eight, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight_flush(variant);
@@ -716,11 +716,11 @@ mod tests {
     #[test]
     fn test_straight_flush_five_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Five, Suite::Hearts),
-            Card(Rank::Six, Suite::Hearts),
-            Card(Rank::Seven, Suite::Hearts),
-            Card(Rank::Eight, Suite::Hearts),
-            Card(Rank::Nine, Suite::Hearts),
+            Card(Rank::Five, Suit::Hearts),
+            Card(Rank::Six, Suit::Hearts),
+            Card(Rank::Seven, Suit::Hearts),
+            Card(Rank::Eight, Suit::Hearts),
+            Card(Rank::Nine, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight_flush(variant);
@@ -732,11 +732,11 @@ mod tests {
     #[test]
     fn test_straight_flush_six_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Six, Suite::Hearts),
-            Card(Rank::Seven, Suite::Hearts),
-            Card(Rank::Eight, Suite::Hearts),
-            Card(Rank::Nine, Suite::Hearts),
-            Card(Rank::Ten, Suite::Hearts),
+            Card(Rank::Six, Suit::Hearts),
+            Card(Rank::Seven, Suit::Hearts),
+            Card(Rank::Eight, Suit::Hearts),
+            Card(Rank::Nine, Suit::Hearts),
+            Card(Rank::Ten, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight_flush(variant);
@@ -748,11 +748,11 @@ mod tests {
     #[test]
     fn test_straight_flush_seven_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Seven, Suite::Hearts),
-            Card(Rank::Eight, Suite::Hearts),
-            Card(Rank::Nine, Suite::Hearts),
-            Card(Rank::Ten, Suite::Hearts),
-            Card(Rank::Jack, Suite::Hearts),
+            Card(Rank::Seven, Suit::Hearts),
+            Card(Rank::Eight, Suit::Hearts),
+            Card(Rank::Nine, Suit::Hearts),
+            Card(Rank::Ten, Suit::Hearts),
+            Card(Rank::Jack, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight_flush(variant);
@@ -764,11 +764,11 @@ mod tests {
     #[test]
     fn test_straight_flush_eight_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Eight, Suite::Hearts),
-            Card(Rank::Nine, Suite::Hearts),
-            Card(Rank::Ten, Suite::Hearts),
-            Card(Rank::Jack, Suite::Hearts),
-            Card(Rank::Queen, Suite::Hearts),
+            Card(Rank::Eight, Suit::Hearts),
+            Card(Rank::Nine, Suit::Hearts),
+            Card(Rank::Ten, Suit::Hearts),
+            Card(Rank::Jack, Suit::Hearts),
+            Card(Rank::Queen, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight_flush(variant);
@@ -780,11 +780,11 @@ mod tests {
     #[test]
     fn test_straight_flush_nine_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Nine, Suite::Hearts),
-            Card(Rank::Ten, Suite::Hearts),
-            Card(Rank::Jack, Suite::Hearts),
-            Card(Rank::Queen, Suite::Hearts),
-            Card(Rank::King, Suite::Hearts),
+            Card(Rank::Nine, Suit::Hearts),
+            Card(Rank::Ten, Suit::Hearts),
+            Card(Rank::Jack, Suit::Hearts),
+            Card(Rank::Queen, Suit::Hearts),
+            Card(Rank::King, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight_flush(variant);
@@ -796,11 +796,11 @@ mod tests {
     #[test]
     fn test_straight_flush_ten_from_variant_positive() {
         let variant = Variant([
-            Card(Rank::Ten, Suite::Hearts),
-            Card(Rank::Jack, Suite::Hearts),
-            Card(Rank::Queen, Suite::Hearts),
-            Card(Rank::King, Suite::Hearts),
-            Card(Rank::Ace, Suite::Hearts),
+            Card(Rank::Ten, Suit::Hearts),
+            Card(Rank::Jack, Suit::Hearts),
+            Card(Rank::Queen, Suit::Hearts),
+            Card(Rank::King, Suit::Hearts),
+            Card(Rank::Ace, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight_flush(variant);
@@ -812,11 +812,11 @@ mod tests {
     #[test]
     fn test_straight_flush_from_variant_negative() {
         let variant = Variant([
-            Card(Rank::Ten, Suite::Hearts),
-            Card(Rank::King, Suite::Hearts),
-            Card(Rank::Queen, Suite::Hearts),
-            Card(Rank::King, Suite::Hearts),
-            Card(Rank::Seven, Suite::Hearts),
+            Card(Rank::Ten, Suit::Hearts),
+            Card(Rank::King, Suit::Hearts),
+            Card(Rank::Queen, Suit::Hearts),
+            Card(Rank::King, Suit::Hearts),
+            Card(Rank::Seven, Suit::Hearts),
         ]);
 
         let result = Combination::try_straight_flush(variant);
