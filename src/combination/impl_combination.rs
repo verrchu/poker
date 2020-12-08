@@ -254,7 +254,7 @@ mod tests {
         let result = Combination::try_high_card(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::HighCard { rank: Rank::Ace });
+        assert_eq!(result.unwrap(), Combination::HighCard { rank: Rank::Ace });
     }
 
     #[test]
@@ -270,12 +270,12 @@ mod tests {
         let result = Combination::try_pair(variant);
 
         assert!(result.is_some());
-        assert!(
-            result.unwrap()
-                == Combination::Pair {
-                    rank: Rank::Jack,
-                    kicker: Rank::Eight
-                }
+        assert_eq!(
+            result.unwrap(),
+            Combination::Pair {
+                rank: Rank::Jack,
+                kicker: Rank::Eight
+            }
         );
     }
 
@@ -307,13 +307,13 @@ mod tests {
         let result = Combination::try_two_pairs(variant);
 
         assert!(result.is_some());
-        assert!(
-            result.unwrap()
-                == Combination::TwoPairs {
-                    low: Rank::Two,
-                    high: Rank::Jack,
-                    kicker: Rank::Queen
-                }
+        assert_eq!(
+            result.unwrap(),
+            Combination::TwoPairs {
+                low: Rank::Two,
+                high: Rank::Jack,
+                kicker: Rank::Queen
+            }
         );
     }
 
@@ -345,12 +345,12 @@ mod tests {
         let result = Combination::try_three_of_a_kind(variant);
 
         assert!(result.is_some());
-        assert!(
-            result.unwrap()
-                == Combination::ThreeOfAKind {
-                    rank: Rank::Jack,
-                    kicker: Rank::Eight
-                }
+        assert_eq!(
+            result.unwrap(),
+            Combination::ThreeOfAKind {
+                rank: Rank::Jack,
+                kicker: Rank::Eight
+            }
         );
     }
 
@@ -382,7 +382,7 @@ mod tests {
         let result = Combination::try_straight(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::Straight { rank: Rank::Ace });
+        assert_eq!(result.unwrap(), Combination::Straight { rank: Rank::Ace });
     }
 
     #[test]
@@ -398,7 +398,7 @@ mod tests {
         let result = Combination::try_straight(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::Straight { rank: Rank::Two });
+        assert_eq!(result.unwrap(), Combination::Straight { rank: Rank::Two });
     }
 
     #[test]
@@ -414,7 +414,7 @@ mod tests {
         let result = Combination::try_straight(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::Straight { rank: Rank::Three });
+        assert_eq!(result.unwrap(), Combination::Straight { rank: Rank::Three });
     }
 
     #[test]
@@ -430,7 +430,7 @@ mod tests {
         let result = Combination::try_straight(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::Straight { rank: Rank::Four });
+        assert_eq!(result.unwrap(), Combination::Straight { rank: Rank::Four });
     }
 
     #[test]
@@ -446,7 +446,7 @@ mod tests {
         let result = Combination::try_straight(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::Straight { rank: Rank::Five });
+        assert_eq!(result.unwrap(), Combination::Straight { rank: Rank::Five });
     }
 
     #[test]
@@ -462,7 +462,7 @@ mod tests {
         let result = Combination::try_straight(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::Straight { rank: Rank::Six });
+        assert_eq!(result.unwrap(), Combination::Straight { rank: Rank::Six });
     }
 
     #[test]
@@ -478,7 +478,7 @@ mod tests {
         let result = Combination::try_straight(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::Straight { rank: Rank::Seven });
+        assert_eq!(result.unwrap(), Combination::Straight { rank: Rank::Seven });
     }
 
     #[test]
@@ -494,7 +494,7 @@ mod tests {
         let result = Combination::try_straight(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::Straight { rank: Rank::Eight });
+        assert_eq!(result.unwrap(), Combination::Straight { rank: Rank::Eight });
     }
 
     #[test]
@@ -510,7 +510,7 @@ mod tests {
         let result = Combination::try_straight(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::Straight { rank: Rank::Nine });
+        assert_eq!(result.unwrap(), Combination::Straight { rank: Rank::Nine });
     }
 
     #[test]
@@ -526,7 +526,7 @@ mod tests {
         let result = Combination::try_straight(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::Straight { rank: Rank::Ten });
+        assert_eq!(result.unwrap(), Combination::Straight { rank: Rank::Ten });
     }
 
     #[test]
@@ -557,7 +557,7 @@ mod tests {
         let result = Combination::try_flush(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::Flush { rank: Rank::Ace });
+        assert_eq!(result.unwrap(), Combination::Flush { rank: Rank::Ace });
     }
 
     #[test]
@@ -588,12 +588,12 @@ mod tests {
         let result = Combination::try_four_of_a_kind(variant);
 
         assert!(result.is_some());
-        assert!(
-            result.unwrap()
-                == Combination::FourOfAKind {
-                    rank: Rank::Jack,
-                    kicker: Rank::Two
-                }
+        assert_eq!(
+            result.unwrap(),
+            Combination::FourOfAKind {
+                rank: Rank::Jack,
+                kicker: Rank::Two
+            }
         );
     }
 
@@ -625,12 +625,12 @@ mod tests {
         let result = Combination::try_full_house(variant);
 
         assert!(result.is_some());
-        assert!(
-            result.unwrap()
-                == Combination::FullHouse {
-                    three: Rank::Jack,
-                    two: Rank::Two
-                }
+        assert_eq!(
+            result.unwrap(),
+            Combination::FullHouse {
+                three: Rank::Jack,
+                two: Rank::Two
+            }
         );
     }
 
@@ -662,7 +662,10 @@ mod tests {
         let result = Combination::try_straight_flush(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Ace });
+        assert_eq!(
+            result.unwrap(),
+            Combination::StraightFlush { rank: Rank::Ace }
+        );
     }
 
     #[test]
@@ -678,7 +681,10 @@ mod tests {
         let result = Combination::try_straight_flush(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Two });
+        assert_eq!(
+            result.unwrap(),
+            Combination::StraightFlush { rank: Rank::Two }
+        );
     }
 
     #[test]
@@ -694,7 +700,10 @@ mod tests {
         let result = Combination::try_straight_flush(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Three });
+        assert_eq!(
+            result.unwrap(),
+            Combination::StraightFlush { rank: Rank::Three }
+        );
     }
 
     #[test]
@@ -710,7 +719,10 @@ mod tests {
         let result = Combination::try_straight_flush(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Four });
+        assert_eq!(
+            result.unwrap(),
+            Combination::StraightFlush { rank: Rank::Four }
+        );
     }
 
     #[test]
@@ -726,7 +738,10 @@ mod tests {
         let result = Combination::try_straight_flush(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Five });
+        assert_eq!(
+            result.unwrap(),
+            Combination::StraightFlush { rank: Rank::Five }
+        );
     }
 
     #[test]
@@ -742,7 +757,10 @@ mod tests {
         let result = Combination::try_straight_flush(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Six });
+        assert_eq!(
+            result.unwrap(),
+            Combination::StraightFlush { rank: Rank::Six }
+        );
     }
 
     #[test]
@@ -758,7 +776,10 @@ mod tests {
         let result = Combination::try_straight_flush(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Seven });
+        assert_eq!(
+            result.unwrap(),
+            Combination::StraightFlush { rank: Rank::Seven }
+        );
     }
 
     #[test]
@@ -774,7 +795,10 @@ mod tests {
         let result = Combination::try_straight_flush(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Eight });
+        assert_eq!(
+            result.unwrap(),
+            Combination::StraightFlush { rank: Rank::Eight }
+        );
     }
 
     #[test]
@@ -790,7 +814,10 @@ mod tests {
         let result = Combination::try_straight_flush(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Nine });
+        assert_eq!(
+            result.unwrap(),
+            Combination::StraightFlush { rank: Rank::Nine }
+        );
     }
 
     #[test]
@@ -806,7 +833,10 @@ mod tests {
         let result = Combination::try_straight_flush(variant);
 
         assert!(result.is_some());
-        assert!(result.unwrap() == Combination::StraightFlush { rank: Rank::Ten });
+        assert_eq!(
+            result.unwrap(),
+            Combination::StraightFlush { rank: Rank::Ten }
+        );
     }
 
     #[test]

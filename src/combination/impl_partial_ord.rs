@@ -217,6 +217,8 @@ impl Ord for Combination {
 
 #[cfg(test)]
 mod tests {
+    use ::claim::*;
+
     use super::Combination;
     use crate::card::Rank;
 
@@ -224,42 +226,47 @@ mod tests {
     fn test_ordering_high_card() {
         let lhs = Combination::HighCard { rank: Rank::Two };
 
-        assert!(lhs == Combination::HighCard { rank: Rank::Two });
-        assert!(lhs < Combination::HighCard { rank: Rank::Three });
-        assert!(
-            lhs < Combination::Pair {
+        assert_eq!(lhs, Combination::HighCard { rank: Rank::Two });
+        assert_lt!(lhs, Combination::HighCard { rank: Rank::Three });
+        assert_lt!(
+            lhs,
+            Combination::Pair {
                 rank: Rank::Two,
                 kicker: Rank::Three
             }
         );
-        assert!(
-            lhs < Combination::TwoPairs {
+        assert_lt!(
+            lhs,
+            Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
                 kicker: Rank::Four,
             }
         );
-        assert!(
-            lhs < Combination::ThreeOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::ThreeOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs < Combination::Straight { rank: Rank::Ace });
-        assert!(lhs < Combination::Flush { rank: Rank::Ace });
-        assert!(
-            lhs < Combination::FullHouse {
+        assert_lt!(lhs, Combination::Straight { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::Flush { rank: Rank::Ace });
+        assert_lt!(
+            lhs,
+            Combination::FullHouse {
                 two: Rank::Two,
                 three: Rank::Three,
             }
         );
-        assert!(
-            lhs < Combination::FourOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::FourOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs < Combination::StraightFlush { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
     }
 
     #[test]
@@ -269,53 +276,60 @@ mod tests {
             kicker: Rank::Three,
         };
 
-        assert!(lhs > Combination::HighCard { rank: Rank::Two });
-        assert!(
-            lhs == Combination::Pair {
+        assert_gt!(lhs, Combination::HighCard { rank: Rank::Two });
+        assert_eq!(
+            lhs,
+            Combination::Pair {
                 rank: Rank::Two,
                 kicker: Rank::Three
             }
         );
-        assert!(
-            lhs < Combination::Pair {
+        assert_lt!(
+            lhs,
+            Combination::Pair {
                 rank: Rank::Two,
                 kicker: Rank::Four
             }
         );
-        assert!(
-            lhs < Combination::Pair {
+        assert_lt!(
+            lhs,
+            Combination::Pair {
                 rank: Rank::Four,
                 kicker: Rank::Two
             }
         );
-        assert!(
-            lhs < Combination::TwoPairs {
+        assert_lt!(
+            lhs,
+            Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
                 kicker: Rank::Four,
             }
         );
-        assert!(
-            lhs < Combination::ThreeOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::ThreeOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs < Combination::Straight { rank: Rank::Ace });
-        assert!(lhs < Combination::Flush { rank: Rank::Ace });
-        assert!(
-            lhs < Combination::FullHouse {
+        assert_lt!(lhs, Combination::Straight { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::Flush { rank: Rank::Ace });
+        assert_lt!(
+            lhs,
+            Combination::FullHouse {
                 two: Rank::Two,
                 three: Rank::Three,
             }
         );
-        assert!(
-            lhs < Combination::FourOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::FourOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs < Combination::StraightFlush { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
     }
 
     #[test]
@@ -326,62 +340,70 @@ mod tests {
             kicker: Rank::Four,
         };
 
-        assert!(lhs > Combination::HighCard { rank: Rank::Two });
-        assert!(
-            lhs > Combination::Pair {
+        assert_gt!(lhs, Combination::HighCard { rank: Rank::Two });
+        assert_gt!(
+            lhs,
+            Combination::Pair {
                 rank: Rank::Two,
                 kicker: Rank::Three
             }
         );
-        assert!(
-            lhs == Combination::TwoPairs {
+        assert_eq!(
+            lhs,
+            Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
                 kicker: Rank::Four
             }
         );
-        assert!(
-            lhs < Combination::TwoPairs {
+        assert_lt!(
+            lhs,
+            Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Five,
                 kicker: Rank::Four
             }
         );
-        assert!(
-            lhs < Combination::TwoPairs {
+        assert_lt!(
+            lhs,
+            Combination::TwoPairs {
                 low: Rank::Five,
                 high: Rank::Three,
                 kicker: Rank::Four
             }
         );
-        assert!(
-            lhs < Combination::TwoPairs {
+        assert_lt!(
+            lhs,
+            Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
                 kicker: Rank::Five
             }
         );
-        assert!(
-            lhs < Combination::ThreeOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::ThreeOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs < Combination::Straight { rank: Rank::Ace });
-        assert!(lhs < Combination::Flush { rank: Rank::Ace });
-        assert!(
-            lhs < Combination::FullHouse {
+        assert_lt!(lhs, Combination::Straight { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::Flush { rank: Rank::Ace });
+        assert_lt!(
+            lhs,
+            Combination::FullHouse {
                 two: Rank::Two,
                 three: Rank::Three,
             }
         );
-        assert!(
-            lhs < Combination::FourOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::FourOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs < Combination::StraightFlush { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
     }
 
     #[test]
@@ -391,137 +413,154 @@ mod tests {
             kicker: Rank::Three,
         };
 
-        assert!(lhs > Combination::HighCard { rank: Rank::Two });
-        assert!(
-            lhs > Combination::Pair {
+        assert_gt!(lhs, Combination::HighCard { rank: Rank::Two });
+        assert_gt!(
+            lhs,
+            Combination::Pair {
                 rank: Rank::Two,
                 kicker: Rank::Three
             }
         );
-        assert!(
-            lhs > Combination::TwoPairs {
+        assert_gt!(
+            lhs,
+            Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
                 kicker: Rank::Four
             }
         );
-        assert!(
-            lhs == Combination::ThreeOfAKind {
+        assert_eq!(
+            lhs,
+            Combination::ThreeOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(
-            lhs < Combination::ThreeOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::ThreeOfAKind {
                 rank: Rank::Four,
                 kicker: Rank::Three,
             }
         );
-        assert!(
-            lhs < Combination::ThreeOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::ThreeOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Four,
             }
         );
-        assert!(lhs < Combination::Straight { rank: Rank::Ace });
-        assert!(lhs < Combination::Flush { rank: Rank::Ace });
-        assert!(
-            lhs < Combination::FullHouse {
+        assert_lt!(lhs, Combination::Straight { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::Flush { rank: Rank::Ace });
+        assert_lt!(
+            lhs,
+            Combination::FullHouse {
                 two: Rank::Two,
                 three: Rank::Three,
             }
         );
-        assert!(
-            lhs < Combination::FourOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::FourOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs < Combination::StraightFlush { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
     }
 
     #[test]
     fn test_ordering_straight() {
         let lhs = Combination::Straight { rank: Rank::Ace };
 
-        assert!(lhs > Combination::HighCard { rank: Rank::Two });
-        assert!(
-            lhs > Combination::Pair {
+        assert_gt!(lhs, Combination::HighCard { rank: Rank::Two });
+        assert_gt!(
+            lhs,
+            Combination::Pair {
                 rank: Rank::Two,
                 kicker: Rank::Three
             }
         );
-        assert!(
-            lhs > Combination::TwoPairs {
+        assert_gt!(
+            lhs,
+            Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
                 kicker: Rank::Four
             }
         );
-        assert!(
-            lhs > Combination::ThreeOfAKind {
+        assert_gt!(
+            lhs,
+            Combination::ThreeOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs == Combination::Straight { rank: Rank::Ace });
-        assert!(lhs < Combination::Straight { rank: Rank::Two });
-        assert!(lhs < Combination::Flush { rank: Rank::Ace });
-        assert!(
-            lhs < Combination::FullHouse {
+        assert_eq!(lhs, Combination::Straight { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::Straight { rank: Rank::Two });
+        assert_lt!(lhs, Combination::Flush { rank: Rank::Ace });
+        assert_lt!(
+            lhs,
+            Combination::FullHouse {
                 two: Rank::Two,
                 three: Rank::Three,
             }
         );
-        assert!(
-            lhs < Combination::FourOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::FourOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs < Combination::StraightFlush { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
     }
 
     #[test]
     fn test_ordering_flush() {
         let lhs = Combination::Flush { rank: Rank::Ace };
 
-        assert!(lhs > Combination::HighCard { rank: Rank::Two });
-        assert!(
-            lhs > Combination::Pair {
+        assert_gt!(lhs, Combination::HighCard { rank: Rank::Two });
+        assert_gt!(
+            lhs,
+            Combination::Pair {
                 rank: Rank::Two,
                 kicker: Rank::Three
             }
         );
-        assert!(
-            lhs > Combination::TwoPairs {
+        assert_gt!(
+            lhs,
+            Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
                 kicker: Rank::Four
             }
         );
-        assert!(
-            lhs > Combination::ThreeOfAKind {
+        assert_gt!(
+            lhs,
+            Combination::ThreeOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs > Combination::Straight { rank: Rank::Ace });
-        assert!(lhs == Combination::Flush { rank: Rank::Ace });
-        assert!(lhs > Combination::Flush { rank: Rank::Two });
-        assert!(
-            lhs < Combination::FullHouse {
+        assert_gt!(lhs, Combination::Straight { rank: Rank::Ace });
+        assert_eq!(lhs, Combination::Flush { rank: Rank::Ace });
+        assert_gt!(lhs, Combination::Flush { rank: Rank::Two });
+        assert_lt!(
+            lhs,
+            Combination::FullHouse {
                 two: Rank::Two,
                 three: Rank::Three,
             }
         );
-        assert!(
-            lhs < Combination::FourOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::FourOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs < Combination::StraightFlush { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
     }
 
     #[test]
@@ -531,53 +570,60 @@ mod tests {
             three: Rank::Three,
         };
 
-        assert!(lhs > Combination::HighCard { rank: Rank::Two });
-        assert!(
-            lhs > Combination::Pair {
+        assert_gt!(lhs, Combination::HighCard { rank: Rank::Two });
+        assert_gt!(
+            lhs,
+            Combination::Pair {
                 rank: Rank::Two,
                 kicker: Rank::Three
             }
         );
-        assert!(
-            lhs > Combination::TwoPairs {
+        assert_gt!(
+            lhs,
+            Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
                 kicker: Rank::Four
             }
         );
-        assert!(
-            lhs > Combination::ThreeOfAKind {
+        assert_gt!(
+            lhs,
+            Combination::ThreeOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs > Combination::Straight { rank: Rank::Ace });
-        assert!(lhs > Combination::Flush { rank: Rank::Ace });
-        assert!(
-            lhs == Combination::FullHouse {
+        assert_gt!(lhs, Combination::Straight { rank: Rank::Ace });
+        assert_gt!(lhs, Combination::Flush { rank: Rank::Ace });
+        assert_eq!(
+            lhs,
+            Combination::FullHouse {
                 two: Rank::Two,
                 three: Rank::Three,
             }
         );
-        assert!(
-            lhs < Combination::FullHouse {
+        assert_lt!(
+            lhs,
+            Combination::FullHouse {
                 two: Rank::Two,
                 three: Rank::Four,
             }
         );
-        assert!(
-            lhs < Combination::FullHouse {
+        assert_lt!(
+            lhs,
+            Combination::FullHouse {
                 two: Rank::Four,
                 three: Rank::Three,
             }
         );
-        assert!(
-            lhs < Combination::FourOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::FourOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs < Combination::StraightFlush { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
     }
 
     #[test]
@@ -587,94 +633,106 @@ mod tests {
             kicker: Rank::Three,
         };
 
-        assert!(lhs > Combination::HighCard { rank: Rank::Two });
-        assert!(
-            lhs > Combination::Pair {
+        assert_gt!(lhs, Combination::HighCard { rank: Rank::Two });
+        assert_gt!(
+            lhs,
+            Combination::Pair {
                 rank: Rank::Two,
                 kicker: Rank::Three
             }
         );
-        assert!(
-            lhs > Combination::TwoPairs {
+        assert_gt!(
+            lhs,
+            Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
                 kicker: Rank::Four
             }
         );
-        assert!(
-            lhs > Combination::ThreeOfAKind {
+        assert_gt!(
+            lhs,
+            Combination::ThreeOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs > Combination::Straight { rank: Rank::Ace });
-        assert!(lhs > Combination::Flush { rank: Rank::Ace });
-        assert!(
-            lhs > Combination::FullHouse {
+        assert_gt!(lhs, Combination::Straight { rank: Rank::Ace });
+        assert_gt!(lhs, Combination::Flush { rank: Rank::Ace });
+        assert_gt!(
+            lhs,
+            Combination::FullHouse {
                 two: Rank::Two,
                 three: Rank::Three,
             }
         );
-        assert!(
-            lhs == Combination::FourOfAKind {
+        assert_eq!(
+            lhs,
+            Combination::FourOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(
-            lhs < Combination::FourOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::FourOfAKind {
                 rank: Rank::Four,
                 kicker: Rank::Three,
             }
         );
-        assert!(
-            lhs < Combination::FourOfAKind {
+        assert_lt!(
+            lhs,
+            Combination::FourOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Four,
             }
         );
-        assert!(lhs < Combination::StraightFlush { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
     }
 
     #[test]
     fn test_ordering_straight_flush() {
         let lhs = Combination::StraightFlush { rank: Rank::Ace };
 
-        assert!(lhs > Combination::HighCard { rank: Rank::Two });
-        assert!(
-            lhs > Combination::Pair {
+        assert_gt!(lhs, Combination::HighCard { rank: Rank::Two });
+        assert_gt!(
+            lhs,
+            Combination::Pair {
                 rank: Rank::Two,
                 kicker: Rank::Three
             }
         );
-        assert!(
-            lhs > Combination::TwoPairs {
+        assert_gt!(
+            lhs,
+            Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
                 kicker: Rank::Four
             }
         );
-        assert!(
-            lhs > Combination::ThreeOfAKind {
+        assert_gt!(
+            lhs,
+            Combination::ThreeOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs > Combination::Straight { rank: Rank::Ace });
-        assert!(lhs > Combination::Flush { rank: Rank::Ace });
-        assert!(
-            lhs > Combination::FullHouse {
+        assert_gt!(lhs, Combination::Straight { rank: Rank::Ace });
+        assert_gt!(lhs, Combination::Flush { rank: Rank::Ace });
+        assert_gt!(
+            lhs,
+            Combination::FullHouse {
                 two: Rank::Two,
                 three: Rank::Three,
             }
         );
-        assert!(
-            lhs > Combination::FourOfAKind {
+        assert_gt!(
+            lhs,
+            Combination::FourOfAKind {
                 rank: Rank::Two,
                 kicker: Rank::Three,
             }
         );
-        assert!(lhs == Combination::StraightFlush { rank: Rank::Ace });
-        assert!(lhs < Combination::StraightFlush { rank: Rank::Two });
+        assert_eq!(lhs, Combination::StraightFlush { rank: Rank::Ace });
+        assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Two });
     }
 }

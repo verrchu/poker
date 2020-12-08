@@ -43,6 +43,8 @@ impl FromStr for Rank {
 
 #[cfg(test)]
 mod tests {
+    use ::claim::*;
+
     use std::str::FromStr;
 
     use super::Rank;
@@ -51,247 +53,247 @@ mod tests {
     fn test_ordering_two() {
         let lhs = Rank::Two;
 
-        assert!(lhs == Rank::Two);
-        assert!(lhs < Rank::Three);
-        assert!(lhs < Rank::Four);
-        assert!(lhs < Rank::Five);
-        assert!(lhs < Rank::Six);
-        assert!(lhs < Rank::Seven);
-        assert!(lhs < Rank::Eight);
-        assert!(lhs < Rank::Nine);
-        assert!(lhs < Rank::Ten);
-        assert!(lhs < Rank::Jack);
-        assert!(lhs < Rank::Queen);
-        assert!(lhs < Rank::King);
-        assert!(lhs < Rank::Ace);
+        assert_eq!(lhs, Rank::Two);
+        assert_lt!(lhs, Rank::Three);
+        assert_lt!(lhs, Rank::Four);
+        assert_lt!(lhs, Rank::Five);
+        assert_lt!(lhs, Rank::Six);
+        assert_lt!(lhs, Rank::Seven);
+        assert_lt!(lhs, Rank::Eight);
+        assert_lt!(lhs, Rank::Nine);
+        assert_lt!(lhs, Rank::Ten);
+        assert_lt!(lhs, Rank::Jack);
+        assert_lt!(lhs, Rank::Queen);
+        assert_lt!(lhs, Rank::King);
+        assert_lt!(lhs, Rank::Ace);
     }
 
     #[test]
     fn test_ordering_three() {
         let lhs = Rank::Three;
 
-        assert!(lhs > Rank::Two);
-        assert!(lhs == Rank::Three);
-        assert!(lhs < Rank::Four);
-        assert!(lhs < Rank::Five);
-        assert!(lhs < Rank::Six);
-        assert!(lhs < Rank::Seven);
-        assert!(lhs < Rank::Eight);
-        assert!(lhs < Rank::Nine);
-        assert!(lhs < Rank::Ten);
-        assert!(lhs < Rank::Jack);
-        assert!(lhs < Rank::Queen);
-        assert!(lhs < Rank::King);
-        assert!(lhs < Rank::Ace);
+        assert_gt!(lhs, Rank::Two);
+        assert_eq!(lhs, Rank::Three);
+        assert_lt!(lhs, Rank::Four);
+        assert_lt!(lhs, Rank::Five);
+        assert_lt!(lhs, Rank::Six);
+        assert_lt!(lhs, Rank::Seven);
+        assert_lt!(lhs, Rank::Eight);
+        assert_lt!(lhs, Rank::Nine);
+        assert_lt!(lhs, Rank::Ten);
+        assert_lt!(lhs, Rank::Jack);
+        assert_lt!(lhs, Rank::Queen);
+        assert_lt!(lhs, Rank::King);
+        assert_lt!(lhs, Rank::Ace);
     }
 
     #[test]
     fn test_ordering_four() {
         let lhs = Rank::Four;
 
-        assert!(lhs > Rank::Two);
-        assert!(lhs > Rank::Three);
-        assert!(lhs == Rank::Four);
-        assert!(lhs < Rank::Five);
-        assert!(lhs < Rank::Six);
-        assert!(lhs < Rank::Seven);
-        assert!(lhs < Rank::Eight);
-        assert!(lhs < Rank::Nine);
-        assert!(lhs < Rank::Ten);
-        assert!(lhs < Rank::Jack);
-        assert!(lhs < Rank::Queen);
-        assert!(lhs < Rank::King);
-        assert!(lhs < Rank::Ace);
+        assert_gt!(lhs, Rank::Two);
+        assert_gt!(lhs, Rank::Three);
+        assert_eq!(lhs, Rank::Four);
+        assert_lt!(lhs, Rank::Five);
+        assert_lt!(lhs, Rank::Six);
+        assert_lt!(lhs, Rank::Seven);
+        assert_lt!(lhs, Rank::Eight);
+        assert_lt!(lhs, Rank::Nine);
+        assert_lt!(lhs, Rank::Ten);
+        assert_lt!(lhs, Rank::Jack);
+        assert_lt!(lhs, Rank::Queen);
+        assert_lt!(lhs, Rank::King);
+        assert_lt!(lhs, Rank::Ace);
     }
 
     #[test]
     fn test_ordering_five() {
         let lhs = Rank::Five;
 
-        assert!(lhs > Rank::Two);
-        assert!(lhs > Rank::Three);
-        assert!(lhs > Rank::Four);
-        assert!(lhs == Rank::Five);
-        assert!(lhs < Rank::Six);
-        assert!(lhs < Rank::Seven);
-        assert!(lhs < Rank::Eight);
-        assert!(lhs < Rank::Nine);
-        assert!(lhs < Rank::Ten);
-        assert!(lhs < Rank::Jack);
-        assert!(lhs < Rank::Queen);
-        assert!(lhs < Rank::King);
-        assert!(lhs < Rank::Ace);
+        assert_gt!(lhs, Rank::Two);
+        assert_gt!(lhs, Rank::Three);
+        assert_gt!(lhs, Rank::Four);
+        assert_eq!(lhs, Rank::Five);
+        assert_lt!(lhs, Rank::Six);
+        assert_lt!(lhs, Rank::Seven);
+        assert_lt!(lhs, Rank::Eight);
+        assert_lt!(lhs, Rank::Nine);
+        assert_lt!(lhs, Rank::Ten);
+        assert_lt!(lhs, Rank::Jack);
+        assert_lt!(lhs, Rank::Queen);
+        assert_lt!(lhs, Rank::King);
+        assert_lt!(lhs, Rank::Ace);
     }
 
     #[test]
     fn test_ordering_six() {
         let lhs = Rank::Six;
 
-        assert!(lhs > Rank::Two);
-        assert!(lhs > Rank::Three);
-        assert!(lhs > Rank::Four);
-        assert!(lhs > Rank::Five);
-        assert!(lhs == Rank::Six);
-        assert!(lhs < Rank::Seven);
-        assert!(lhs < Rank::Eight);
-        assert!(lhs < Rank::Nine);
-        assert!(lhs < Rank::Ten);
-        assert!(lhs < Rank::Jack);
-        assert!(lhs < Rank::Queen);
-        assert!(lhs < Rank::King);
-        assert!(lhs < Rank::Ace);
+        assert_gt!(lhs, Rank::Two);
+        assert_gt!(lhs, Rank::Three);
+        assert_gt!(lhs, Rank::Four);
+        assert_gt!(lhs, Rank::Five);
+        assert_eq!(lhs, Rank::Six);
+        assert_lt!(lhs, Rank::Seven);
+        assert_lt!(lhs, Rank::Eight);
+        assert_lt!(lhs, Rank::Nine);
+        assert_lt!(lhs, Rank::Ten);
+        assert_lt!(lhs, Rank::Jack);
+        assert_lt!(lhs, Rank::Queen);
+        assert_lt!(lhs, Rank::King);
+        assert_lt!(lhs, Rank::Ace);
     }
 
     #[test]
     fn test_ordering_seven() {
         let lhs = Rank::Seven;
 
-        assert!(lhs > Rank::Two);
-        assert!(lhs > Rank::Three);
-        assert!(lhs > Rank::Four);
-        assert!(lhs > Rank::Five);
-        assert!(lhs > Rank::Six);
-        assert!(lhs == Rank::Seven);
-        assert!(lhs < Rank::Eight);
-        assert!(lhs < Rank::Nine);
-        assert!(lhs < Rank::Ten);
-        assert!(lhs < Rank::Jack);
-        assert!(lhs < Rank::Queen);
-        assert!(lhs < Rank::King);
-        assert!(lhs < Rank::Ace);
+        assert_gt!(lhs, Rank::Two);
+        assert_gt!(lhs, Rank::Three);
+        assert_gt!(lhs, Rank::Four);
+        assert_gt!(lhs, Rank::Five);
+        assert_gt!(lhs, Rank::Six);
+        assert_eq!(lhs, Rank::Seven);
+        assert_lt!(lhs, Rank::Eight);
+        assert_lt!(lhs, Rank::Nine);
+        assert_lt!(lhs, Rank::Ten);
+        assert_lt!(lhs, Rank::Jack);
+        assert_lt!(lhs, Rank::Queen);
+        assert_lt!(lhs, Rank::King);
+        assert_lt!(lhs, Rank::Ace);
     }
 
     #[test]
     fn test_ordering_eight() {
         let lhs = Rank::Eight;
 
-        assert!(lhs > Rank::Two);
-        assert!(lhs > Rank::Three);
-        assert!(lhs > Rank::Four);
-        assert!(lhs > Rank::Five);
-        assert!(lhs > Rank::Six);
-        assert!(lhs > Rank::Seven);
-        assert!(lhs == Rank::Eight);
-        assert!(lhs < Rank::Nine);
-        assert!(lhs < Rank::Ten);
-        assert!(lhs < Rank::Jack);
-        assert!(lhs < Rank::Queen);
-        assert!(lhs < Rank::King);
-        assert!(lhs < Rank::Ace);
+        assert_gt!(lhs, Rank::Two);
+        assert_gt!(lhs, Rank::Three);
+        assert_gt!(lhs, Rank::Four);
+        assert_gt!(lhs, Rank::Five);
+        assert_gt!(lhs, Rank::Six);
+        assert_gt!(lhs, Rank::Seven);
+        assert_eq!(lhs, Rank::Eight);
+        assert_lt!(lhs, Rank::Nine);
+        assert_lt!(lhs, Rank::Ten);
+        assert_lt!(lhs, Rank::Jack);
+        assert_lt!(lhs, Rank::Queen);
+        assert_lt!(lhs, Rank::King);
+        assert_lt!(lhs, Rank::Ace);
     }
 
     #[test]
     fn test_ordering_nine() {
         let lhs = Rank::Nine;
 
-        assert!(lhs > Rank::Two);
-        assert!(lhs > Rank::Three);
-        assert!(lhs > Rank::Four);
-        assert!(lhs > Rank::Five);
-        assert!(lhs > Rank::Six);
-        assert!(lhs > Rank::Seven);
-        assert!(lhs > Rank::Eight);
-        assert!(lhs == Rank::Nine);
-        assert!(lhs < Rank::Ten);
-        assert!(lhs < Rank::Jack);
-        assert!(lhs < Rank::Queen);
-        assert!(lhs < Rank::King);
-        assert!(lhs < Rank::Ace);
+        assert_gt!(lhs, Rank::Two);
+        assert_gt!(lhs, Rank::Three);
+        assert_gt!(lhs, Rank::Four);
+        assert_gt!(lhs, Rank::Five);
+        assert_gt!(lhs, Rank::Six);
+        assert_gt!(lhs, Rank::Seven);
+        assert_gt!(lhs, Rank::Eight);
+        assert_eq!(lhs, Rank::Nine);
+        assert_lt!(lhs, Rank::Ten);
+        assert_lt!(lhs, Rank::Jack);
+        assert_lt!(lhs, Rank::Queen);
+        assert_lt!(lhs, Rank::King);
+        assert_lt!(lhs, Rank::Ace);
     }
 
     #[test]
     fn test_ordering_ten() {
         let lhs = Rank::Ten;
 
-        assert!(lhs > Rank::Two);
-        assert!(lhs > Rank::Three);
-        assert!(lhs > Rank::Four);
-        assert!(lhs > Rank::Five);
-        assert!(lhs > Rank::Six);
-        assert!(lhs > Rank::Seven);
-        assert!(lhs > Rank::Eight);
-        assert!(lhs > Rank::Nine);
-        assert!(lhs == Rank::Ten);
-        assert!(lhs < Rank::Jack);
-        assert!(lhs < Rank::Queen);
-        assert!(lhs < Rank::King);
-        assert!(lhs < Rank::Ace);
+        assert_gt!(lhs, Rank::Two);
+        assert_gt!(lhs, Rank::Three);
+        assert_gt!(lhs, Rank::Four);
+        assert_gt!(lhs, Rank::Five);
+        assert_gt!(lhs, Rank::Six);
+        assert_gt!(lhs, Rank::Seven);
+        assert_gt!(lhs, Rank::Eight);
+        assert_gt!(lhs, Rank::Nine);
+        assert_eq!(lhs, Rank::Ten);
+        assert_lt!(lhs, Rank::Jack);
+        assert_lt!(lhs, Rank::Queen);
+        assert_lt!(lhs, Rank::King);
+        assert_lt!(lhs, Rank::Ace);
     }
 
     #[test]
     fn test_ordering_jack() {
         let lhs = Rank::Jack;
 
-        assert!(lhs > Rank::Two);
-        assert!(lhs > Rank::Three);
-        assert!(lhs > Rank::Four);
-        assert!(lhs > Rank::Five);
-        assert!(lhs > Rank::Six);
-        assert!(lhs > Rank::Seven);
-        assert!(lhs > Rank::Eight);
-        assert!(lhs > Rank::Nine);
-        assert!(lhs > Rank::Ten);
-        assert!(lhs == Rank::Jack);
-        assert!(lhs < Rank::Queen);
-        assert!(lhs < Rank::King);
-        assert!(lhs < Rank::Ace);
+        assert_gt!(lhs, Rank::Two);
+        assert_gt!(lhs, Rank::Three);
+        assert_gt!(lhs, Rank::Four);
+        assert_gt!(lhs, Rank::Five);
+        assert_gt!(lhs, Rank::Six);
+        assert_gt!(lhs, Rank::Seven);
+        assert_gt!(lhs, Rank::Eight);
+        assert_gt!(lhs, Rank::Nine);
+        assert_gt!(lhs, Rank::Ten);
+        assert_eq!(lhs, Rank::Jack);
+        assert_lt!(lhs, Rank::Queen);
+        assert_lt!(lhs, Rank::King);
+        assert_lt!(lhs, Rank::Ace);
     }
 
     #[test]
     fn test_ordering_queen() {
         let lhs = Rank::Queen;
 
-        assert!(lhs > Rank::Two);
-        assert!(lhs > Rank::Three);
-        assert!(lhs > Rank::Four);
-        assert!(lhs > Rank::Five);
-        assert!(lhs > Rank::Six);
-        assert!(lhs > Rank::Seven);
-        assert!(lhs > Rank::Eight);
-        assert!(lhs > Rank::Nine);
-        assert!(lhs > Rank::Ten);
-        assert!(lhs > Rank::Jack);
-        assert!(lhs == Rank::Queen);
-        assert!(lhs < Rank::King);
-        assert!(lhs < Rank::Ace);
+        assert_gt!(lhs, Rank::Two);
+        assert_gt!(lhs, Rank::Three);
+        assert_gt!(lhs, Rank::Four);
+        assert_gt!(lhs, Rank::Five);
+        assert_gt!(lhs, Rank::Six);
+        assert_gt!(lhs, Rank::Seven);
+        assert_gt!(lhs, Rank::Eight);
+        assert_gt!(lhs, Rank::Nine);
+        assert_gt!(lhs, Rank::Ten);
+        assert_gt!(lhs, Rank::Jack);
+        assert_eq!(lhs, Rank::Queen);
+        assert_lt!(lhs, Rank::King);
+        assert_lt!(lhs, Rank::Ace);
     }
 
     #[test]
     fn test_ordering_king() {
         let lhs = Rank::King;
 
-        assert!(lhs > Rank::Two);
-        assert!(lhs > Rank::Three);
-        assert!(lhs > Rank::Four);
-        assert!(lhs > Rank::Five);
-        assert!(lhs > Rank::Six);
-        assert!(lhs > Rank::Seven);
-        assert!(lhs > Rank::Eight);
-        assert!(lhs > Rank::Nine);
-        assert!(lhs > Rank::Ten);
-        assert!(lhs > Rank::Jack);
-        assert!(lhs > Rank::Queen);
-        assert!(lhs == Rank::King);
-        assert!(lhs < Rank::Ace);
+        assert_gt!(lhs, Rank::Two);
+        assert_gt!(lhs, Rank::Three);
+        assert_gt!(lhs, Rank::Four);
+        assert_gt!(lhs, Rank::Five);
+        assert_gt!(lhs, Rank::Six);
+        assert_gt!(lhs, Rank::Seven);
+        assert_gt!(lhs, Rank::Eight);
+        assert_gt!(lhs, Rank::Nine);
+        assert_gt!(lhs, Rank::Ten);
+        assert_gt!(lhs, Rank::Jack);
+        assert_gt!(lhs, Rank::Queen);
+        assert_eq!(lhs, Rank::King);
+        assert_lt!(lhs, Rank::Ace);
     }
 
     #[test]
     fn test_ordering_ace() {
         let lhs = Rank::Ace;
 
-        assert!(lhs > Rank::Two);
-        assert!(lhs > Rank::Three);
-        assert!(lhs > Rank::Four);
-        assert!(lhs > Rank::Five);
-        assert!(lhs > Rank::Six);
-        assert!(lhs > Rank::Seven);
-        assert!(lhs > Rank::Eight);
-        assert!(lhs > Rank::Nine);
-        assert!(lhs > Rank::Ten);
-        assert!(lhs > Rank::Jack);
-        assert!(lhs > Rank::Queen);
-        assert!(lhs > Rank::King);
-        assert!(lhs == Rank::Ace);
+        assert_gt!(lhs, Rank::Two);
+        assert_gt!(lhs, Rank::Three);
+        assert_gt!(lhs, Rank::Four);
+        assert_gt!(lhs, Rank::Five);
+        assert_gt!(lhs, Rank::Six);
+        assert_gt!(lhs, Rank::Seven);
+        assert_gt!(lhs, Rank::Eight);
+        assert_gt!(lhs, Rank::Nine);
+        assert_gt!(lhs, Rank::Ten);
+        assert_gt!(lhs, Rank::Jack);
+        assert_gt!(lhs, Rank::Queen);
+        assert_gt!(lhs, Rank::King);
+        assert_eq!(lhs, Rank::Ace);
     }
 
     #[test]

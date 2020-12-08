@@ -31,10 +31,10 @@ mod tests {
 
     #[test]
     fn test_equality() {
-        assert!(Suit::Diamonds == Suit::Diamonds);
-        assert!(Suit::Clubs == Suit::Clubs);
-        assert!(Suit::Hearts == Suit::Hearts);
-        assert!(Suit::Spades == Suit::Spades);
+        assert_eq!(Suit::Diamonds, Suit::Diamonds);
+        assert_eq!(Suit::Clubs, Suit::Clubs);
+        assert_eq!(Suit::Hearts, Suit::Hearts);
+        assert_eq!(Suit::Spades, Suit::Spades);
     }
 
     #[test]
