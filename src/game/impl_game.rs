@@ -481,4 +481,48 @@ mod tests {
             ]
         );
     }
+
+    #[test]
+    fn test_texas_holdem_combination() {
+        let board = Board([
+            Card(Rank::Ace, Suit::Diamonds),
+            Card(Rank::Ten, Suit::Hearts),
+            Card(Rank::Nine, Suit::Hearts),
+            Card(Rank::Eight, Suit::Hearts),
+            Card(Rank::Seven, Suit::Hearts),
+        ]);
+
+        let hand = HandOf2([
+            Card(Rank::Four, Suit::Hearts),
+            Card(Rank::Jack, Suit::Diamonds),
+        ]);
+
+        assert_eq!(
+            Game::texas_holdem_combination(board, hand),
+            Combination::Flush { rank: Rank::Ten }
+        );
+    }
+
+    #[test]
+    fn test_omaha_holdem_combination() {
+        let board = Board([
+            Card(Rank::Ace, Suit::Diamonds),
+            Card(Rank::Ten, Suit::Hearts),
+            Card(Rank::Nine, Suit::Hearts),
+            Card(Rank::Eight, Suit::Hearts),
+            Card(Rank::Seven, Suit::Hearts),
+        ]);
+
+        let hand = HandOf4([
+            Card(Rank::Four, Suit::Hearts),
+            Card(Rank::Jack, Suit::Diamonds),
+            Card(Rank::Queen, Suit::Clubs),
+            Card(Rank::King, Suit::Diamonds),
+        ]);
+
+        assert_eq!(
+            Game::omaha_holdem_combination(board, hand),
+            Combination::Straight { rank: Rank::Eight }
+        );
+    }
 }
