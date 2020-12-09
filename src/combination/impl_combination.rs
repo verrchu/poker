@@ -221,10 +221,7 @@ impl Combination {
             .iter()
             .map(|card| card.0)
             .fold(HashMap::new(), |mut acc, x| {
-                let n = match acc.get(&x) {
-                    Some(n) => n + 1,
-                    None => 1,
-                };
+                let n = acc.get(&x).map_or(1, |n| n + 1);
 
                 acc.insert(x, n);
 
@@ -235,6 +232,8 @@ impl Combination {
 
 #[cfg(test)]
 mod tests {
+    use ::itertools::Itertools;
+
     use crate::card::Card;
     use crate::card::Rank;
     use crate::card::Suit;
@@ -852,5 +851,27 @@ mod tests {
         let result = Combination::try_straight_flush(variant);
 
         assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_group_ranks() {
+        assert_eq!(
+            Combination::group_ranks([
+                Card(Rank::Ten, Suit::Hearts),
+                Card(Rank::King, Suit::Hearts),
+                Card(Rank::Queen, Suit::Hearts),
+                Card(Rank::King, Suit::Hearts),
+                Card(Rank::Seven, Suit::Hearts),
+            ])
+            .into_iter()
+            .sorted_by(|(rank_a, _), (rank_b, _)| rank_a.cmp(rank_b))
+            .collect::<Vec<(_, _)>>(),
+            vec![
+                (Rank::Seven, 1),
+                (Rank::Ten, 1),
+                (Rank::Queen, 1),
+                (Rank::King, 2)
+            ]
+        );
     }
 }

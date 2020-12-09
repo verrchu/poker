@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::convert::TryInto;
 
 use ::itertools::Itertools;
@@ -11,14 +12,14 @@ use crate::game::HandOf4;
 use crate::game::Variant;
 
 impl Game {
-    pub fn sort_hands(&self) -> Vec<(Vec<Card>, Combination)> {
-        match self {
+    fn sort_hands(game: Self) -> Vec<(Vec<Card>, Combination)> {
+        match game {
             Self::TexasHoldem(board, hands) => hands
                 .iter()
                 .map(|hand| {
                     (
                         hand.0.to_vec(),
-                        Self::texas_holdem_combination(*board, *hand),
+                        Self::texas_holdem_combination(board, *hand),
                     )
                 })
                 .sorted_by(|(_, comb_a), (_, comb_b)| comb_a.cmp(comb_b))
@@ -28,7 +29,7 @@ impl Game {
                 .map(|hand| {
                     (
                         hand.0.to_vec(),
-                        Self::omaha_holdem_combination(*board, *hand),
+                        Self::omaha_holdem_combination(board, *hand),
                     )
                 })
                 .sorted_by(|(_, comb_a), (_, comb_b)| comb_a.cmp(comb_b))
@@ -40,6 +41,24 @@ impl Game {
                 .sorted_by(|(_, comb_a), (_, comb_b)| comb_a.cmp(comb_b))
                 .collect::<Vec<_>>(),
         }
+    }
+
+    fn group_hands(hands: Vec<(Vec<Card>, Combination)>) -> HashMap<Combination, Vec<Vec<Card>>> {
+        hands
+            .into_iter()
+            .fold(HashMap::new(), |mut acc, (hand, comb)| {
+                let hands = acc.get_mut(&comb).map_or_else(
+                    || vec![hand.clone()],
+                    |hands| {
+                        hands.push(hand.clone());
+                        hands.to_vec()
+                    },
+                );
+
+                acc.insert(comb, hands);
+
+                acc
+            })
     }
 
     fn texas_holdem_combination(board: Board, hand: HandOf2) -> Combination {
@@ -79,6 +98,8 @@ impl Game {
 
 #[cfg(test)]
 mod tests {
+    use ::itertools::Itertools;
+
     use crate::card::Card;
     use crate::card::Rank;
     use crate::card::Suit;
@@ -117,7 +138,7 @@ mod tests {
         );
 
         assert_eq!(
-            game.sort_hands(),
+            Game::sort_hands(game),
             vec![
                 (
                     vec![
@@ -191,7 +212,7 @@ mod tests {
         );
 
         assert_eq!(
-            game.sort_hands(),
+            Game::sort_hands(game),
             vec![
                 (
                     vec![
@@ -257,7 +278,7 @@ mod tests {
         ]);
 
         assert_eq!(
-            game.sort_hands(),
+            Game::sort_hands(game),
             vec![
                 (
                     vec![
@@ -297,6 +318,77 @@ mod tests {
                         rank: Rank::Seven,
                         kicker: Rank::King
                     }
+                )
+            ]
+        );
+    }
+
+    #[test]
+    fn test_group_hands() {
+        let hands = vec![
+            (
+                vec![
+                    Card(Rank::King, Suit::Hearts),
+                    Card(Rank::Eight, Suit::Clubs),
+                ],
+                Combination::ThreeOfAKind {
+                    rank: Rank::Two,
+                    kicker: Rank::King,
+                },
+            ),
+            (
+                vec![
+                    Card(Rank::Ace, Suit::Diamonds),
+                    Card(Rank::Ten, Suit::Hearts),
+                ],
+                Combination::FullHouse {
+                    two: Rank::Ace,
+                    three: Rank::Ten,
+                },
+            ),
+            (
+                vec![
+                    Card(Rank::King, Suit::Clubs),
+                    Card(Rank::Seven, Suit::Diamonds),
+                ],
+                Combination::ThreeOfAKind {
+                    rank: Rank::Two,
+                    kicker: Rank::King,
+                },
+            ),
+        ];
+
+        assert_eq!(
+            Game::group_hands(hands)
+                .into_iter()
+                .sorted_by(|(comb_a, _), (comb_b, _)| comb_a.cmp(comb_b))
+                .collect::<Vec<(Combination, Vec<Vec<Card>>)>>(),
+            vec![
+                (
+                    Combination::ThreeOfAKind {
+                        rank: Rank::Two,
+                        kicker: Rank::King,
+                    },
+                    vec![
+                        vec![
+                            Card(Rank::King, Suit::Hearts),
+                            Card(Rank::Eight, Suit::Clubs),
+                        ],
+                        vec![
+                            Card(Rank::King, Suit::Clubs),
+                            Card(Rank::Seven, Suit::Diamonds),
+                        ],
+                    ]
+                ),
+                (
+                    Combination::FullHouse {
+                        two: Rank::Ace,
+                        three: Rank::Ten,
+                    },
+                    vec![vec![
+                        Card(Rank::Ace, Suit::Diamonds),
+                        Card(Rank::Ten, Suit::Hearts),
+                    ],]
                 )
             ]
         );

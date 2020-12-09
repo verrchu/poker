@@ -9,6 +9,12 @@ use std::str::FromStr;
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub struct Card(pub Rank, pub Suit);
 
+impl ToString for Card {
+    fn to_string(&self) -> String {
+        format!("{}{}", self.0.to_string(), self.1.to_string())
+    }
+}
+
 pub fn parse_cards(s: &str) -> Vec<Card> {
     let (ranks, suits): (Vec<_>, Vec<_>) = s
         .chars()
@@ -53,5 +59,13 @@ mod tests {
         assert!(parsed
             .into_iter()
             .all(|card| card == Card(Rank::Ace, Suit::Diamonds)));
+    }
+
+    #[test]
+    fn test_to_string() {
+        assert_eq!(
+            Card(Rank::Ace, Suit::Diamonds).to_string(),
+            "Ad".to_string()
+        );
     }
 }
