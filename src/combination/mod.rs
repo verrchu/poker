@@ -1,7 +1,7 @@
 use std::hash::Hash;
 
 mod impl_combination;
-mod impl_partial_ord;
+mod impl_ordering;
 
 use crate::card::Rank;
 
