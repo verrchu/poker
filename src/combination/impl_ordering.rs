@@ -42,17 +42,17 @@ impl PartialOrd for Combination {
             Self::TwoPairs {
                 low: low_pair_rank_a,
                 high: high_pair_rank_a,
-                kicker: kicker_a,
+                extra: extra_a,
             } => match other {
                 Self::HighCard { .. } => Some(Ordering::Greater),
                 Self::Pair { .. } => Some(Ordering::Greater),
                 Self::TwoPairs {
                     low: low_pair_rank_b,
                     high: high_pair_rank_b,
-                    kicker: kicker_b,
+                    extra: extra_b,
                 } => match high_pair_rank_a.partial_cmp(high_pair_rank_b) {
                     Some(Ordering::Equal) => match low_pair_rank_a.partial_cmp(low_pair_rank_b) {
-                        Some(Ordering::Equal) => kicker_a.partial_cmp(kicker_b),
+                        Some(Ordering::Equal) => Some(compare_extra(extra_a, extra_b)),
                         ord => ord,
                     },
                     ord => ord,
@@ -244,7 +244,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
-                kicker: Rank::Four,
+                extra: [Rank::Four],
             }
         );
         assert_lt!(
@@ -307,7 +307,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
-                kicker: Rank::Four,
+                extra: [Rank::Four],
             }
         );
         assert_lt!(
@@ -341,7 +341,7 @@ mod tests {
         let lhs = Combination::TwoPairs {
             low: Rank::Two,
             high: Rank::Three,
-            kicker: Rank::Four,
+            extra: [Rank::Four],
         };
 
         assert_gt!(lhs, Combination::HighCard { rank: Rank::Two });
@@ -357,7 +357,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
-                kicker: Rank::Four
+                extra: [Rank::Four]
             }
         );
         assert_lt!(
@@ -365,7 +365,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Five,
-                kicker: Rank::Four
+                extra: [Rank::Four]
             }
         );
         assert_lt!(
@@ -373,7 +373,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Five,
                 high: Rank::Three,
-                kicker: Rank::Four
+                extra: [Rank::Four]
             }
         );
         assert_lt!(
@@ -381,7 +381,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
-                kicker: Rank::Five
+                extra: [Rank::Five]
             }
         );
         assert_lt!(
@@ -430,7 +430,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
-                kicker: Rank::Four
+                extra: [Rank::Four]
             }
         );
         assert_eq!(
@@ -490,7 +490,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
-                kicker: Rank::Four
+                extra: [Rank::Four]
             }
         );
         assert_gt!(
@@ -537,7 +537,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
-                kicker: Rank::Four
+                extra: [Rank::Four]
             }
         );
         assert_gt!(
@@ -587,7 +587,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
-                kicker: Rank::Four
+                extra: [Rank::Four]
             }
         );
         assert_gt!(
@@ -650,7 +650,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
-                kicker: Rank::Four
+                extra: [Rank::Four]
             }
         );
         assert_gt!(
@@ -710,7 +710,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Three,
-                kicker: Rank::Four
+                extra: [Rank::Four]
             }
         );
         assert_gt!(

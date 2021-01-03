@@ -175,13 +175,13 @@ impl Combination {
                 Some(Self::TwoPairs {
                     low: ranks[0],
                     high: ranks[1],
-                    kicker,
+                    extra: [kicker],
                 })
             } else {
                 Some(Self::TwoPairs {
                     low: ranks[1],
                     high: ranks[0],
-                    kicker,
+                    extra: [kicker],
                 })
             }
         }
@@ -312,7 +312,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Jack,
-                kicker: Rank::Queen
+                extra: [Rank::Queen]
             }
         );
     }

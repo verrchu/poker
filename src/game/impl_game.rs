@@ -158,7 +158,7 @@ mod tests {
                     Combination::TwoPairs {
                         low: Rank::Six,
                         high: Rank::King,
-                        kicker: Rank::Queen
+                        extra: [Rank::Queen]
                     }
                 ),
                 (
