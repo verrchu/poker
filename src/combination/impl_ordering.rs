@@ -3,6 +3,8 @@ use std::cmp::Ordering;
 use crate::card::Rank;
 use crate::combination::Combination;
 
+use ::itertools::Itertools;
+
 impl PartialOrd for Combination {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         match self {
@@ -183,12 +185,46 @@ impl Ord for Combination {
     }
 }
 
+fn compare_extra(xs: &[Rank], ys: &[Rank]) -> Ordering {
+    assert_eq!(xs.len(), ys.len());
+
+    let xs = xs.iter().sorted().rev();
+    let ys = ys.iter().sorted().rev();
+
+    xs.zip(ys)
+        .map(|(x, y)| x.cmp(y))
+        .find(|ord| *ord != Ordering::Equal)
+        .unwrap_or(Ordering::Equal)
+}
+
 #[cfg(test)]
 mod tests {
     use ::claim::*;
 
+    use std::cmp::Ordering;
+
     use super::Combination;
     use crate::card::Rank;
+
+    #[test]
+    fn test_compare_extra() {
+        use super::compare_extra;
+
+        let xs = &[Rank::Two, Rank::Nine, Rank::King];
+        let ys = &[Rank::Two, Rank::Eight, Rank::King];
+
+        assert_eq!(compare_extra(xs, ys), Ordering::Greater);
+
+        let xs = &[Rank::Two, Rank::Eight, Rank::King];
+        let ys = &[Rank::Two, Rank::Nine, Rank::King];
+
+        assert_eq!(compare_extra(xs, ys), Ordering::Less);
+
+        let xs = &[Rank::Two, Rank::Nine, Rank::King];
+        let ys = &[Rank::Two, Rank::Nine, Rank::King];
+
+        assert_eq!(compare_extra(xs, ys), Ordering::Equal);
+    }
 
     #[test]
     fn test_ordering_high_card() {
