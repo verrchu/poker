@@ -332,7 +332,7 @@ mod tests {
                     ],
                     Combination::FourOfAKind {
                         rank: Rank::Seven,
-                        kicker: Rank::King
+                        extra: [Rank::King]
                     }
                 )
             ]

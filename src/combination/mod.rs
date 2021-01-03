@@ -35,7 +35,7 @@ pub enum Combination {
     },
     FourOfAKind {
         rank: Rank,
-        kicker: Rank,
+        extra: [Rank; 1],
     },
     StraightFlush {
         rank: Rank,

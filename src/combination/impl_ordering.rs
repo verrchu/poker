@@ -137,7 +137,7 @@ impl PartialOrd for Combination {
             },
             Self::FourOfAKind {
                 rank: rank_a,
-                kicker: kicker_a,
+                extra: extra_a,
             } => match other {
                 Self::HighCard { .. } => Some(Ordering::Greater),
                 Self::Pair { .. } => Some(Ordering::Greater),
@@ -148,9 +148,9 @@ impl PartialOrd for Combination {
                 Self::FullHouse { .. } => Some(Ordering::Greater),
                 Self::FourOfAKind {
                     rank: rank_b,
-                    kicker: kicker_b,
+                    extra: extra_b,
                 } => match rank_a.partial_cmp(rank_b) {
-                    Some(Ordering::Equal) => kicker_a.partial_cmp(kicker_b),
+                    Some(Ordering::Equal) => Some(compare_extra(extra_a, extra_b)),
                     ord => ord,
                 },
                 Self::StraightFlush { .. } => Some(Ordering::Less),
@@ -267,7 +267,7 @@ mod tests {
             lhs,
             Combination::FourOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three],
             }
         );
         assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
@@ -330,7 +330,7 @@ mod tests {
             lhs,
             Combination::FourOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three],
             }
         );
         assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
@@ -404,7 +404,7 @@ mod tests {
             lhs,
             Combination::FourOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three],
             }
         );
         assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
@@ -467,7 +467,7 @@ mod tests {
             lhs,
             Combination::FourOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three],
             }
         );
         assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
@@ -514,7 +514,7 @@ mod tests {
             lhs,
             Combination::FourOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three],
             }
         );
         assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
@@ -561,7 +561,7 @@ mod tests {
             lhs,
             Combination::FourOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three],
             }
         );
         assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
@@ -624,7 +624,7 @@ mod tests {
             lhs,
             Combination::FourOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three],
             }
         );
         assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
@@ -634,7 +634,7 @@ mod tests {
     fn test_ordering_four_of_a_kind() {
         let lhs = Combination::FourOfAKind {
             rank: Rank::Two,
-            kicker: Rank::Three,
+            extra: [Rank::Three],
         };
 
         assert_gt!(lhs, Combination::HighCard { rank: Rank::Two });
@@ -673,21 +673,21 @@ mod tests {
             lhs,
             Combination::FourOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three],
             }
         );
         assert_lt!(
             lhs,
             Combination::FourOfAKind {
                 rank: Rank::Four,
-                kicker: Rank::Three,
+                extra: [Rank::Three],
             }
         );
         assert_lt!(
             lhs,
             Combination::FourOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Four,
+                extra: [Rank::Four],
             }
         );
         assert_lt!(lhs, Combination::StraightFlush { rank: Rank::Ace });
@@ -733,7 +733,7 @@ mod tests {
             lhs,
             Combination::FourOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three],
             }
         );
         assert_eq!(lhs, Combination::StraightFlush { rank: Rank::Ace });

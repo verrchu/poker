@@ -51,7 +51,10 @@ impl Combination {
         );
 
         rank.and_then(|rank| kicker.map(|kicker| (rank, kicker)))
-            .map(|(rank, kicker)| Self::FourOfAKind { rank, kicker })
+            .map(|(rank, kicker)| Self::FourOfAKind {
+                rank,
+                extra: [kicker],
+            })
     }
 
     pub fn try_full_house(variant: Variant) -> Option<Self> {
@@ -592,7 +595,7 @@ mod tests {
             result.unwrap(),
             Combination::FourOfAKind {
                 rank: Rank::Jack,
-                kicker: Rank::Two
+                extra: [Rank::Two]
             }
         );
     }
