@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::convert::TryInto;
 
 use ::itertools::Itertools;
 
@@ -51,7 +52,10 @@ impl Combination {
         );
 
         rank.and_then(|rank| kicker.map(|kicker| (rank, kicker)))
-            .map(|(rank, kicker)| Self::FourOfAKind { rank, kicker })
+            .map(|(rank, kicker)| Self::FourOfAKind {
+                rank,
+                extra: [kicker],
+            })
     }
 
     pub fn try_full_house(variant: Variant) -> Option<Self> {
@@ -140,16 +144,22 @@ impl Combination {
             .find(|(_rank, n)| *n == 3)
             .map(|(rank, _)| rank);
 
-        let kicker = rank.and(
+        let extra = rank.and(Some(
             groups
                 .into_iter()
                 .filter(|(_rank, n)| *n == 1)
                 .map(|(rank, _)| rank)
-                .max(),
-        );
+                .collect::<Vec<_>>(),
+        ));
 
-        rank.and_then(|rank| kicker.map(|kicker| (rank, kicker)))
-            .map(|(rank, kicker)| Self::ThreeOfAKind { rank, kicker })
+        rank.and_then(|rank| extra.map(|extra| (rank, extra)))
+            .map(|(rank, extra)| {
+                assert_eq!(extra.len(), 2);
+
+                let extra: [Rank; 2] = extra.try_into().unwrap();
+
+                Self::ThreeOfAKind { rank, extra }
+            })
     }
 
     pub fn try_two_pairs(variant: Variant) -> Option<Self> {
@@ -175,13 +185,13 @@ impl Combination {
                 Some(Self::TwoPairs {
                     low: ranks[0],
                     high: ranks[1],
-                    kicker,
+                    extra: [kicker],
                 })
             } else {
                 Some(Self::TwoPairs {
                     low: ranks[1],
                     high: ranks[0],
-                    kicker,
+                    extra: [kicker],
                 })
             }
         }
@@ -196,16 +206,22 @@ impl Combination {
             .find(|(_rank, n)| *n == 2)
             .map(|(rank, _)| rank);
 
-        let kicker = rank.and(
+        let extra = rank.and(Some(
             groups
                 .into_iter()
                 .filter(|(_rank, n)| *n == 1)
                 .map(|(rank, _)| rank)
-                .max(),
-        );
+                .collect::<Vec<_>>(),
+        ));
 
-        rank.and_then(|rank| kicker.map(|kicker| (rank, kicker)))
-            .map(|(rank, kicker)| Self::Pair { rank, kicker })
+        rank.and_then(|rank| extra.map(|extra| (rank, extra)))
+            .map(|(rank, extra)| {
+                assert_eq!(extra.len(), 3);
+
+                let extra: [Rank; 3] = extra.try_into().unwrap();
+
+                Self::Pair { rank, extra }
+            })
     }
 
     pub fn try_high_card(variant: Variant) -> Option<Self> {
@@ -274,7 +290,7 @@ mod tests {
             result.unwrap(),
             Combination::Pair {
                 rank: Rank::Jack,
-                kicker: Rank::Eight
+                extra: [Rank::Two, Rank::Seven, Rank::Eight]
             }
         );
     }
@@ -312,7 +328,7 @@ mod tests {
             Combination::TwoPairs {
                 low: Rank::Two,
                 high: Rank::Jack,
-                kicker: Rank::Queen
+                extra: [Rank::Queen]
             }
         );
     }
@@ -349,7 +365,7 @@ mod tests {
             result.unwrap(),
             Combination::ThreeOfAKind {
                 rank: Rank::Jack,
-                kicker: Rank::Eight
+                extra: [Rank::Eight, Rank::Two]
             }
         );
     }
@@ -592,7 +608,7 @@ mod tests {
             result.unwrap(),
             Combination::FourOfAKind {
                 rank: Rank::Jack,
-                kicker: Rank::Two
+                extra: [Rank::Two]
             }
         );
     }

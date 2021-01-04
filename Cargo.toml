@@ -6,4 +6,6 @@ edition = "2018"
 
 [dependencies]
 itertools = "^0.9"
+
+[dev-dependencies]
 claim = "^0.4"
