@@ -12,7 +12,7 @@ pub enum Combination {
     },
     Pair {
         rank: Rank,
-        kicker: Rank,
+        extra: [Rank; 3],
     },
     TwoPairs {
         low: Rank,

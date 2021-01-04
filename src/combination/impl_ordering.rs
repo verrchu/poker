@@ -21,14 +21,14 @@ impl PartialOrd for Combination {
             },
             Self::Pair {
                 rank: pair_rank_a,
-                kicker: kicker_rank_a,
+                extra: extra_a,
             } => match other {
                 Self::HighCard { .. } => Some(Ordering::Greater),
                 Self::Pair {
                     rank: pair_rank_b,
-                    kicker: kicker_rank_b,
+                    extra: extra_b,
                 } => match pair_rank_a.partial_cmp(pair_rank_b) {
-                    Some(Ordering::Equal) => kicker_rank_a.partial_cmp(kicker_rank_b),
+                    Some(Ordering::Equal) => Some(compare_extra(extra_a, extra_b)),
                     ord => ord,
                 },
                 Self::TwoPairs { .. } => Some(Ordering::Less),

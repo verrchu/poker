@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::convert::TryInto;
 
 use ::itertools::Itertools;
 
@@ -199,16 +200,22 @@ impl Combination {
             .find(|(_rank, n)| *n == 2)
             .map(|(rank, _)| rank);
 
-        let kicker = rank.and(
+        let extra = rank.and(Some(
             groups
                 .into_iter()
                 .filter(|(_rank, n)| *n == 1)
                 .map(|(rank, _)| rank)
-                .max(),
-        );
+                .collect::<Vec<_>>(),
+        ));
 
-        rank.and_then(|rank| kicker.map(|kicker| (rank, kicker)))
-            .map(|(rank, kicker)| Self::Pair { rank, kicker })
+        rank.and_then(|rank| extra.map(|extra| (rank, extra)))
+            .map(|(rank, extra)| {
+                assert_eq!(extra.len(), 3);
+
+                let extra: [Rank; 3] = extra.try_into().unwrap();
+
+                Self::Pair { rank, extra }
+            })
     }
 
     pub fn try_high_card(variant: Variant) -> Option<Self> {
