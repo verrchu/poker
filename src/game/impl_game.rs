@@ -440,7 +440,7 @@ mod tests {
                 ],
                 Combination::Pair {
                     rank: Rank::Ace,
-                    kicker: Rank::Ten,
+                    extra: [Rank::Eight, Rank::Six, Rank::Three],
                 },
             ),
             (

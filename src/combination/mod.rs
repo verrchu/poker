@@ -1,11 +1,12 @@
 use std::hash::Hash;
 
 mod impl_combination;
-mod impl_ordering;
+mod impl_eq;
+mod impl_ord;
 
 use crate::card::Rank;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, Hash)]
 pub enum Combination {
     HighCard {
         rank: Rank,
@@ -21,7 +22,7 @@ pub enum Combination {
     },
     ThreeOfAKind {
         rank: Rank,
-        kicker: Rank,
+        extra: [Rank; 2],
     },
     Straight {
         rank: Rank,

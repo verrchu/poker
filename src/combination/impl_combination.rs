@@ -144,16 +144,22 @@ impl Combination {
             .find(|(_rank, n)| *n == 3)
             .map(|(rank, _)| rank);
 
-        let kicker = rank.and(
+        let extra = rank.and(Some(
             groups
                 .into_iter()
                 .filter(|(_rank, n)| *n == 1)
                 .map(|(rank, _)| rank)
-                .max(),
-        );
+                .collect::<Vec<_>>(),
+        ));
 
-        rank.and_then(|rank| kicker.map(|kicker| (rank, kicker)))
-            .map(|(rank, kicker)| Self::ThreeOfAKind { rank, kicker })
+        rank.and_then(|rank| extra.map(|extra| (rank, extra)))
+            .map(|(rank, extra)| {
+                assert_eq!(extra.len(), 2);
+
+                let extra: [Rank; 2] = extra.try_into().unwrap();
+
+                Self::ThreeOfAKind { rank, extra }
+            })
     }
 
     pub fn try_two_pairs(variant: Variant) -> Option<Self> {
@@ -205,6 +211,7 @@ impl Combination {
                 .into_iter()
                 .filter(|(_rank, n)| *n == 1)
                 .map(|(rank, _)| rank)
+                .sorted()
                 .collect::<Vec<_>>(),
         ));
 
@@ -284,7 +291,7 @@ mod tests {
             result.unwrap(),
             Combination::Pair {
                 rank: Rank::Jack,
-                kicker: Rank::Eight
+                extra: [Rank::Two, Rank::Seven, Rank::Eight]
             }
         );
     }
