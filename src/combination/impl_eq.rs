@@ -135,7 +135,7 @@ mod tests {
     use crate::combination::Combination;
 
     #[test]
-    fn test_compare_high_card_with_different_combination() {
+    fn test_compare_high_card_with_different_combinations() {
         let lhs = Combination::HighCard { rank: Rank::Two };
 
         assert_ne!(
@@ -188,7 +188,7 @@ mod tests {
     }
 
     #[test]
-    fn test_compare_pair_with_different_combination() {
+    fn test_compare_pair_with_different_combinations() {
         let lhs = Combination::Pair {
             rank: Rank::Two,
             extra: [Rank::Three, Rank::Four, Rank::Five],
@@ -310,7 +310,7 @@ mod tests {
     }
 
     #[test]
-    fn test_compare_two_pairs_with_different_combination() {
+    fn test_compare_two_pairs_with_different_combinations() {
         let lhs = Combination::TwoPairs {
             low: Rank::Two,
             high: Rank::Three,
@@ -394,7 +394,7 @@ mod tests {
     }
 
     #[test]
-    fn test_compare_three_of_a_kind_with_different_combination() {
+    fn test_compare_three_of_a_kind_with_different_combinations() {
         let lhs = Combination::ThreeOfAKind {
             rank: Rank::Two,
             extra: [Rank::Three, Rank::Four],
@@ -480,7 +480,7 @@ mod tests {
     }
 
     #[test]
-    fn test_compare_straight_with_different_combination() {
+    fn test_compare_straight_with_different_combinations() {
         let lhs = Combination::Straight { rank: Rank::Two };
 
         assert_ne!(lhs, Combination::HighCard { rank: Rank::Two });
@@ -533,7 +533,7 @@ mod tests {
     }
 
     #[test]
-    fn test_compare_flush_with_different_combination() {
+    fn test_compare_flush_with_different_combinations() {
         let lhs = Combination::Flush { rank: Rank::Two };
 
         assert_ne!(lhs, Combination::HighCard { rank: Rank::Two });
@@ -586,7 +586,7 @@ mod tests {
     }
 
     #[test]
-    fn test_compare_full_house_with_different_combination() {
+    fn test_compare_full_house_with_different_combinations() {
         let lhs = Combination::FullHouse {
             two: Rank::Two,
             three: Rank::Three,
@@ -665,7 +665,7 @@ mod tests {
     }
 
     #[test]
-    fn test_compare_four_of_a_kind_with_different_combination() {
+    fn test_compare_four_of_a_kind_with_different_combinations() {
         let lhs = Combination::FourOfAKind {
             rank: Rank::Two,
             extra: [Rank::Three],
@@ -744,7 +744,7 @@ mod tests {
     }
 
     #[test]
-    fn test_compare_straight_flush_with_different_combination() {
+    fn test_compare_straight_flush_with_different_combinations() {
         let lhs = Combination::StraightFlush { rank: Rank::Two };
 
         assert_ne!(lhs, Combination::HighCard { rank: Rank::Two });

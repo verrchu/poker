@@ -211,7 +211,6 @@ impl Combination {
                 .into_iter()
                 .filter(|(_rank, n)| *n == 1)
                 .map(|(rank, _)| rank)
-                .sorted()
                 .collect::<Vec<_>>(),
         ));
 
