@@ -1,12 +1,11 @@
-use std::hash::Hash;
-
 mod impl_combination;
 mod impl_eq;
+mod impl_hash;
 mod impl_ord;
 
 use crate::card::Rank;
 
-#[derive(Debug, Clone, Copy, Hash)]
+#[derive(Debug, Clone, Copy)]
 pub enum Combination {
     HighCard {
         rank: Rank,
