@@ -2,8 +2,8 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-apt update
-apt upgrade
+apt update -y
+apt upgrade -y
 
 apt install -y curl gcc
 
