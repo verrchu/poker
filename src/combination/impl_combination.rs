@@ -366,7 +366,7 @@ mod tests {
             result.unwrap(),
             Combination::ThreeOfAKind {
                 rank: Rank::Jack,
-                kicker: Rank::Eight
+                extra: [Rank::Eight, Rank::Two]
             }
         );
     }

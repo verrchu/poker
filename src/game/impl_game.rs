@@ -165,7 +165,7 @@ mod tests {
                     vec![Card(Rank::King, Suit::Hearts), Card(Rank::Two, Suit::Clubs),],
                     Combination::ThreeOfAKind {
                         rank: Rank::King,
-                        kicker: Rank::Queen
+                        extra: [Rank::Jack, Rank::Queen],
                     }
                 ),
                 (
@@ -236,7 +236,7 @@ mod tests {
                     ],
                     Combination::ThreeOfAKind {
                         rank: Rank::King,
-                        kicker: Rank::Queen
+                        extra: [Rank::Queen, Rank::Eight],
                     }
                 ),
                 (
@@ -306,7 +306,7 @@ mod tests {
                     ],
                     Combination::ThreeOfAKind {
                         rank: Rank::Two,
-                        kicker: Rank::King
+                        extra: [Rank::King, Rank::Eight],
                     }
                 ),
                 (
@@ -349,7 +349,7 @@ mod tests {
                 ],
                 Combination::ThreeOfAKind {
                     rank: Rank::Two,
-                    kicker: Rank::King,
+                    extra: [Rank::Three, Rank::Four],
                 },
             ),
             (
@@ -369,7 +369,7 @@ mod tests {
                 ],
                 Combination::ThreeOfAKind {
                     rank: Rank::Two,
-                    kicker: Rank::King,
+                    extra: [Rank::Three, Rank::Four],
                 },
             ),
         ];
@@ -383,7 +383,7 @@ mod tests {
                 (
                     Combination::ThreeOfAKind {
                         rank: Rank::Two,
-                        kicker: Rank::King,
+                        extra: [Rank::Three, Rank::Four],
                     },
                     vec![
                         vec![
@@ -420,7 +420,7 @@ mod tests {
                 ],
                 Combination::ThreeOfAKind {
                     rank: Rank::Two,
-                    kicker: Rank::King,
+                    extra: [Rank::Three, Rank::Four],
                 },
             ),
             (
@@ -450,7 +450,7 @@ mod tests {
                 ],
                 Combination::ThreeOfAKind {
                     rank: Rank::Two,
-                    kicker: Rank::King,
+                    extra: [Rank::Three, Rank::Four],
                 },
             ),
         ];

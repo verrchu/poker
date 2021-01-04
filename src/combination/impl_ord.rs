@@ -251,7 +251,7 @@ mod tests {
             lhs,
             Combination::ThreeOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three, Rank::Four],
             }
         );
         assert_lt!(lhs, Combination::Straight { rank: Rank::Ace });
@@ -321,7 +321,7 @@ mod tests {
             lhs,
             Combination::ThreeOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three, Rank::Four],
             }
         );
         assert_lt!(lhs, Combination::Straight { rank: Rank::Ace });
@@ -395,7 +395,7 @@ mod tests {
             lhs,
             Combination::ThreeOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three, Rank::Four],
             }
         );
         assert_lt!(lhs, Combination::Straight { rank: Rank::Ace });
@@ -421,7 +421,7 @@ mod tests {
     fn test_ordering_three_of_a_king() {
         let lhs = Combination::ThreeOfAKind {
             rank: Rank::Two,
-            kicker: Rank::Three,
+            extra: [Rank::Three, Rank::Four],
         };
 
         assert_gt!(lhs, Combination::HighCard { rank: Rank::Two });
@@ -440,27 +440,43 @@ mod tests {
                 extra: [Rank::Four]
             }
         );
+
         assert_eq!(
             lhs,
             Combination::ThreeOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three, Rank::Four],
             }
         );
         assert_lt!(
             lhs,
             Combination::ThreeOfAKind {
                 rank: Rank::Four,
-                kicker: Rank::Three,
+                extra: [Rank::Three, Rank::Four],
             }
         );
         assert_lt!(
             lhs,
             Combination::ThreeOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Four,
+                extra: [Rank::Five, Rank::Four],
             }
         );
+        assert_lt!(
+            lhs,
+            Combination::ThreeOfAKind {
+                rank: Rank::Two,
+                extra: [Rank::Three, Rank::Six],
+            }
+        );
+        assert_lt!(
+            lhs,
+            Combination::ThreeOfAKind {
+                rank: Rank::Two,
+                extra: [Rank::Five, Rank::Six],
+            }
+        );
+
         assert_lt!(lhs, Combination::Straight { rank: Rank::Ace });
         assert_lt!(lhs, Combination::Flush { rank: Rank::Ace });
         assert_lt!(
@@ -504,7 +520,7 @@ mod tests {
             lhs,
             Combination::ThreeOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three, Rank::Four],
             }
         );
         assert_eq!(lhs, Combination::Straight { rank: Rank::Ace });
@@ -551,7 +567,7 @@ mod tests {
             lhs,
             Combination::ThreeOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three, Rank::Four],
             }
         );
         assert_gt!(lhs, Combination::Straight { rank: Rank::Ace });
@@ -601,7 +617,7 @@ mod tests {
             lhs,
             Combination::ThreeOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three, Rank::Four],
             }
         );
         assert_gt!(lhs, Combination::Straight { rank: Rank::Ace });
@@ -664,7 +680,7 @@ mod tests {
             lhs,
             Combination::ThreeOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three, Rank::Four],
             }
         );
         assert_gt!(lhs, Combination::Straight { rank: Rank::Ace });
@@ -724,7 +740,7 @@ mod tests {
             lhs,
             Combination::ThreeOfAKind {
                 rank: Rank::Two,
-                kicker: Rank::Three,
+                extra: [Rank::Three, Rank::Four],
             }
         );
         assert_gt!(lhs, Combination::Straight { rank: Rank::Ace });
